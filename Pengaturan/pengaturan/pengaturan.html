@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Perbaiki - Pengaturan</title>
+    <link rel="stylesheet" href="pengaturan.css">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script src="../tema.js"></script>
+</head>
+<body>
+
+    <header class="top-navbar">
+        <a href="laporan-kinerja.html" class="navbar-brand">
+            <span class="iconify" data-icon="lucide:wrench" data-width="20" data-height="20"></span>
+            <span>Si Perbaiki</span>
+        </a>
+
+        <div class="navbar-search">
+            <span class="iconify" data-icon="lucide:search" data-width="14" data-height="14"></span>
+            <input type="text" placeholder="Cari sesuatu...">
+        </div>
+
+        <div class="navbar-right">
+            <div class="navbar-icons">
+                <span class="iconify" data-icon="lucide:bell" data-width="17" data-height="17"></span>
+                <span class="iconify" data-icon="lucide:user-circle" data-width="18" data-height="18"></span>
+            </div>
+            <span class="navbar-role">Admin</span>
+        </div>
+    </header>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="laporan-kinerja.html" class="nav-link">Menu Utama</a>
+                <a href="kasir.html" class="nav-link">Cetak Nota Terima</a>
+                <a href="laporan-kinerja.html" class="nav-link">Laporan Keuangan</a>
+                <a href="../laporan-kinerja/laporan-kinerja.html" class="nav-link">Laporan Kinerja</a>
+                <a href="../kasir/kasir.html" class="nav-link">Kasir</a>
+                <a href="../pengaturan/pengaturan.html" class="nav-link active">Pengaturan</a>
+                <a href="../profil-admin/profil-admin.html" class="nav-link">Profil Admin</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Pengaturan</h1>
+                <p>Kelola pengaturan sistem, akun, dan prefensi aplikasi.</p>
+            </div>
+
+            <!-- ROW 1 -->
+            <div class="settings-row">
+                <div class="card">
+                    <h2 class="card-title">Profil Perusahaan</h2>
+                    <div class="company-flex">
+                        <!-- Logo Perusahaan diganti dengan gambar dari screenshot 1 -->
+                        <div class="logo-col">
+                            <div class="custom-logo-img">
+                                <img src="../img/logo.png" alt="Logo Perusahaan" onerror="this.src='logo.png'">
+                            </div>
+                            <button class="btn-unduh">
+                                Unduh
+                                <span class="iconify" data-icon="lucide:download" data-width="11" data-height="11"></span>
+                            </button>
+                        </div>
+
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <label>Nama Perusahaan</label>
+                                <div class="gray-box">Si Perbaiki</div>
+                            </div>
+                            <div class="field-item">
+                                <label>Alamat</label>
+                                <div class="gray-box tall-box">4517 Washington Ave.<br>Manchester, Kentucky<br>39495</div>
+                            </div>
+                            <div class="field-item">
+                                <label>No. Telepon</label>
+                                <div class="gray-box">858-555-0112</div>
+                            </div>
+                            <div class="field-item">
+                                <label>Email</label>
+                                <div class="gray-box"><u>siperbaiki@gmail.com</u></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">Zona Waktu dan Tanggal</h2>
+                    <div class="list-rows">
+                        <div class="list-row">
+                            <span class="row-key">Zona Waktu</span>
+                            <span>: &nbsp;&nbsp;(UTC + 07.00) Jakarta, Bangkok, Hanoi</span>
+                        </div>
+                        <div class="list-row">
+                            <span class="row-key">Format Tanggal</span>
+                            <span>: &nbsp;&nbsp;DD/MM/YYY</span>
+                        </div>
+                        <div class="list-row">
+                            <span class="row-key">Format Waktu</span>
+                            <span>: &nbsp;&nbsp;24 Jam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 2 -->
+            <div class="settings-row">
+                <div class="card">
+                    <h2 class="card-title">Akun Administrator</h2>
+                    <div class="admin-flex">
+                        <div class="fields-grid">
+                            <div class="field-item">
+                                <label>Nama Lengkap</label>
+                                <div class="gray-box">Eleanor Pena</div>
+                            </div>
+                            <div class="field-item">
+                                <label>Username</label>
+                                <div class="gray-box">@eleanorpena</div>
+                            </div>
+                            <div class="field-item">
+                                <label>Email</label>
+                                <div class="gray-box"><u>eleanorpena@gmail.com</u></div>
+                            </div>
+                            <div class="field-item">
+                                <label>No. Telepon</label>
+                                <div class="gray-box">087-555-0129</div>
+                            </div>
+                        </div>
+
+                        <!-- Avatar Admin diganti dengan foto dari screenshot 2 -->
+                        <div class="avatar-col">
+                            <div class="admin-avatar-circle">
+                                <img src="admin-avatar.png" alt="Eleanor Pena" onerror="this.src='https://i.pravatar.cc/150?img=47'">
+                            </div>
+                            <button class="btn-unduh">
+                                Unduh
+                                <span class="iconify" data-icon="lucide:download" data-width="11" data-height="11"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">Notifikasi &nbsp;Sistem</h2>
+                    <div class="list-rows">
+                        <div class="list-row space-between">
+                            <span>Notifikasi Laporan Harian</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="list-row space-between">
+                            <span>Notifikasi Melalui E-mail</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="list-row space-between">
+                            <span>Notifikasi Pembayaran Masuk</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 3 -->
+            <div class="settings-row no-margin">
+                <div class="card">
+                    <h2 class="card-title">Keamanan</h2>
+                    <div class="list-rows">
+                        <div class="list-row space-between">
+                            <span>Ubah Password</span>
+                            <button class="btn-cyan-outline">Ubah &nbsp;Password</button>
+                        </div>
+                        <div class="list-row space-between">
+                            <span>Verifikasi Dua Langkah</span>
+                            <label class="toggle-switch left-knob">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="list-row space-between">
+                            <span>Logout dari Semua Perangkat</span>
+                            <button class="btn-cyan-outline">Logout Semua</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card-title">Pengaturan &nbsp;Tampilan</h2>
+                    <div class="theme-grid">
+                        <div class="theme-box">
+                            <span class="iconify" data-icon="lucide:sun" data-width="24" data-height="24"></span>
+                            <span>Terang</span>
+                        </div>
+                        <div class="theme-box">
+                            <span class="iconify" data-icon="lucide:moon" data-width="24" data-height="24"></span>
+                            <span>Gelap</span>
+                        </div>
+                    </div>
+
+                    <div class="fields-grid">
+                        <div class="field-item">
+                            <label>Bahasa</label>
+                            <div class="bordered-input">Bahasa &nbsp;Indonesia</div>
+                        </div>
+                        <div class="field-item">
+                            <label>Ukuran Font</label>
+                            <select class="bordered-select">
+                                <option>Sedang (Default)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <span>©Si Perbaiki. All Rights Reserved.</span>
+        <span>Admin &nbsp;Dashboard v1.0</span>
+    </footer>
+
+    <script src="pengaturan.js"></script>
+
+</body>
+</html>

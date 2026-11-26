@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Kinerja - Si Perbaiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Navbar / Topbar Rata Kiri */
+    .topbar {
+      width: 100%;
+      min-height: 60px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      min-width: 196px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .navbar-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      color: #60a5fa;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-box i {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #0f172a;
+      background: transparent;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Wrapper Utama */
+    .dashboard-wrapper {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 20px 0;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-item {
+      display: block;
+      padding: 13px 24px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(37, 99, 235, 0.45);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .menu-empty-info {
+      display: none;
+      padding: 12px 24px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* Konten Utama */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+      background-color: #ffffff;
+      padding: 22px 26px;
+    }
+
+    .page-header {
+      margin-bottom: 18px;
+    }
+
+    .page-header h1 {
+      font-size: 23px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+
+    .page-header p {
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    /* 4 Kartu Kinerja */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .stat-info {
+      min-width: 0;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Grid Bawah: Kiri Detail Kinerja Teknisi, Kanan Grafik & Catatan */
+    .kinerja-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .panel-box {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    /* Tabel Detail Kinerja Teknisi */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.kinerja-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.kinerja-table thead th {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 10px 10px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    table.kinerja-table thead th.col-teknisi,
+    table.kinerja-table tbody td.col-teknisi {
+      text-align: left;
+    }
+
+    table.kinerja-table thead th:first-child {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    table.kinerja-table thead th:last-child {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    table.kinerja-table tbody td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .teknisi-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    /* --- CSS Baru untuk Gambar Lingkaran --- */
+    .teknisi-avatar-img {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Paginasi */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .page-btn {
+      min-width: 28px;
+      height: 28px;
+      padding: 0 7px;
+      border: 1px solid #cbd5e1;
+      background-color: #ffffff;
+      color: #0f172a;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .page-btn.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border-color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    /* Grafik Performa Kategori Servis */
+    .svg-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-wrapper svg {
+      width: 100%;
+      height: auto;
+      max-height: 240px;
+    }
+
+    /* Catatan */
+    .notes-list {
+      list-style: decimal;
+      padding-left: 18px;
+      font-size: 12px;
+      color: #334155;
+      line-height: 1.55;
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* Responsif */
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .kinerja-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 10px;
+      }
+
+      .brand-box {
+        min-width: auto;
+      }
+
+      .search-box {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .dashboard-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-item {
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .content-area {
+        padding: 18px 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Rata Kiri -->
+  <header class="topbar">
+    <a href="menu utama.html" class="brand-box">
+      <img
+        src="logo.png"
+        alt="Logo Si Perbaiki"
+        class="navbar-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <i class="fa-solid fa-screwdriver-wrench brand-icon" style="display: none;"></i>
+      <span>Si Perbaiki</span>
+    </a>
+
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="menuSearchInput" placeholder="Cari menu (contoh: Menu, Nota, Keuangan, Kinerja)...">
+    </div>
+
+    <div class="topbar-right">
+      <i class="fa-solid fa-bell" title="Notifikasi"></i>
+      <div class="admin-profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="adminNameTop">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Samping + Konten Utama -->
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="menu utama.html" class="nav-item">Menu Utama</a>
+      <a href="cetak nota.html" class="nav-item">Cetak Nota Terima</a>
+      <a href="laporan keuangan.html" class="nav-item">Laporan Keuangan</a>
+      <a href="laporan kinerja.html" class="nav-item active">Laporan Kinerja</a>
+      <a href="kasir.html" class="nav-item">Kasir</a>
+      <a href="pengaturan.html" class="nav-item">Pengaturan</a>
+      <a href="profil admin.html" class="nav-item">Profil Admin</a>
+      <div class="menu-empty-info" id="menuEmptyInfo">Menu tidak ditemukan.</div>
+    </aside>
+
+    <main class="content-area">
+      <div class="page-header">
+        <h1>Laporan Kinerja</h1>
+        <p>Pantau pekerjaan teknisi dan kualitas layanan secara real time</p>
+      </div>
+
+      <!-- 4 Kartu Kinerja -->
+      <section class="stats-grid" id="kartuKinerja"></section>
+
+      <!-- Grid Detail Kinerja Teknisi + Performa Kategori Servis & Catatan -->
+      <section class="kinerja-grid">
+        <div class="panel-box">
+          <h2 class="panel-title">Detail Kinerja Teknisi</h2>
+
+          <div class="table-responsive" style="margin-top: 12px;">
+            <table class="kinerja-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th class="col-teknisi">Teknisi</th>
+                  <th>Total</th>
+                  <th>Selesai</th>
+                  <th>Proses</th>
+                  <th>Tertunda</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyKinerja"></tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="paginationKinerja">
+            <button type="button" class="page-btn" id="prevKinerja">&lt;</button>
+            <button type="button" class="page-btn active" data-page="1">1</button>
+            <button type="button" class="page-btn" id="nextKinerja">&gt;</button>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="panel-box">
+            <h2 class="panel-title">Performa Kategori Servis</h2>
+            <p class="panel-subtitle">Jenis servis yang ditangani oleh teknisi.</p>
+            <div class="svg-wrapper" id="kategoriChartContainer"></div>
+          </div>
+
+          <div class="panel-box">
+            <h2 class="panel-title">Catatan</h2>
+            <ol class="notes-list">
+              <li>Kinerja teknisi dinilai berdasarkan jumlah servis yang diselesaikan, waktu penyelesaian, dan tingkat kepuasan pelanggan.</li>
+              <li>Data diperbarui secara <em>real-time</em>.</li>
+              <li>Gunakan filter tanggal untuk melihat laporan pada periode tertentu.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>&copy;Si Perbaiki. All Rights Reserved.</span>
+    <span>Admin Dashboard v1.0</span>
+  </footer>
+
+  <script>
+    const savedAdmin = localStorage.getItem("siPerbaikiAdmin");
+    if (savedAdmin && savedAdmin.trim() !== "") {
+      document.getElementById("adminNameTop").textContent = savedAdmin;
+    }
+
+    const menuSearchInput = document.getElementById("menuSearchInput");
+    const navItems = document.querySelectorAll("#sidebarMenu .nav-item");
+    const menuEmptyInfo = document.getElementById("menuEmptyInfo");
+
+    menuSearchInput.addEventListener("input", function () {
+      const keyword = menuSearchInput.value.trim().toLowerCase();
+      let cocokCount = 0;
+      navItems.forEach(function (link) {
+        const namaMenu = link.textContent.toLowerCase();
+        if (namaMenu.includes(keyword)) {
+          link.style.display = "block";
+          cocokCount++;
+        } else {
+          link.style.display = "none";
+        }
+      });
+      menuEmptyInfo.style.display = cocokCount === 0 ? "block" : "none";
+    });
+
+    menuSearchInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        for (let i = 0; i < navItems.length; i++) {
+          if (navItems[i].style.display !== "none") {
+            window.location.href = navItems[i].getAttribute("href");
+            break;
+          }
+        }
+      }
+    });
+
+    const dataKartu = [
+      { label: "Total Teknisi", nilai: "10", ikon: "fa-solid fa-user-gear" },
+      { label: "Servis Selesai", nilai: "96", ikon: "fa-solid fa-circle-check" },
+      { label: "Rata - Rata", nilai: "1,8 hari", ikon: "fa-solid fa-file-contract" },
+      { label: "Tingkat Kepuasan", nilai: "4,8/5", ikon: "fa-solid fa-star" }
+    ];
+    const kartuKinerja = document.getElementById("kartuKinerja");
+    dataKartu.forEach(function (item) {
+      kartuKinerja.innerHTML +=
+        '<div class="stat-card">' +
+          '<div class="stat-icon"><i class="' + item.ikon + '"></i></div>' +
+          '<div class="stat-info">' +
+            '<div class="stat-label">' + item.label + '</div>' +
+            '<div class="stat-value">' + item.nilai + '</div>' +
+          '</div>' +
+        '</div>';
+    });
+
+    // --- DATA DENGAN FOTO (GANTI DENGAN PATH SESUNGGUHNYA) ---
+    const dataTeknisi = [
+      { no: 1, nama: "Leslie Alexander", foto: "carmen.jpg", total: 42, selesai: 36, proses: 6, tertunda: 0 },
+      { no: 2, nama: "Annette Black", foto: "jiwoo.jpg", total: 38, selesai: 32, proses: 6, tertunda: 0 },
+      { no: 3, nama: "Albert Flores", foto: "Kai.jpg", total: 28, selesai: 24, proses: 4, tertunda: 0 },
+      { no: 4, nama: "Robert Fox", foto: "Martin.jpg", total: 25, selesai: 20, proses: 5, tertunda: 0 },
+      { no: 5, nama: "Wade Warren", foto: "Keonho(3).jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 },
+      { no: 6, nama: "Devon Lane", foto: "Haechan.jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 },
+      { no: 7, nama: "Esther Howard", foto: "karina.jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 },
+      { no: 8, nama: "Guy Hawkins", foto: "Jeno.jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 },
+      { no: 9, nama: "Darlene", foto: "Jaemin.jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 },
+      { no: 10, nama: "Floyd Miles", foto: "juun.jpg", total: 30, selesai: 15, proses: 5, tertunda: 0 }
+    ];
+
+    const tbodyKinerja = document.getElementById("tbodyKinerja");
+    const paginationKinerja = document.getElementById("paginationKinerja");
+    const prevKinerja = document.getElementById("prevKinerja");
+    const nextKinerja = document.getElementById("nextKinerja");
+
+    let halamanKinerja = 1;
+    const perHalamanKinerja = 10;
+
+    function renderTabelTeknisi(listData, hal) {
+      halamanKinerja = hal;
+      tbodyKinerja.innerHTML = "";
+
+      const totalHal = Math.max(1, Math.ceil(listData.length / perHalamanKinerja));
+      const mulai = (hal - 1) * perHalamanKinerja;
+      const potongan = listData.slice(mulai, mulai + perHalamanKinerja);
+
+      potongan.forEach(function (item) {
+        // --- FUNGSI RENDER DENGAN FOTO ---
+        tbodyKinerja.innerHTML +=
+          "<tr>" +
+            "<td>" + item.no + "</td>" +
+            '<td class="col-teknisi">' +
+              '<span class="teknisi-cell">' +
+                '<img src="' + item.foto + '" alt="Foto ' + item.nama + '" class="teknisi-avatar-img">' +
+                '<span>' + item.nama + '</span>' +
+              '</span>' +
+            '</td>' +
+            "<td>" + item.total + "</td>" +
+            "<td>" + item.selesai + "</td>" +
+            "<td>" + item.proses + "</td>" +
+            "<td>" + item.tertunda + "</td>" +
+          "</tr>";
+      });
+
+      const pageButtons = paginationKinerja.querySelectorAll(".page-btn[data-page]");
+      pageButtons.forEach(function (btn) {
+        btn.classList.toggle("active", Number(btn.dataset.page) === hal);
+      });
+
+      prevKinerja.disabled = hal <= 1;
+      nextKinerja.disabled = hal >= totalHal;
+    }
+
+    paginationKinerja.addEventListener("click", function (event) {
+      const target = event.target.closest(".page-btn");
+      if (!target) return;
+      const totalHal = Math.max(1, Math.ceil(dataTeknisi.length / perHalamanKinerja));
+
+      if (target.id === "prevKinerja" && halamanKinerja > 1) {
+        renderTabelTeknisi(dataTeknisi, halamanKinerja - 1);
+      } else if (target.id === "nextKinerja" && halamanKinerja < totalHal) {
+        renderTabelTeknisi(dataTeknisi, halamanKinerja + 1);
+      } else if (target.dataset.page) {
+        renderTabelTeknisi(dataTeknisi, Number(target.dataset.page));
+      }
+    });
+
+    renderTabelTeknisi(dataTeknisi, 1);
+
+    const dataKategori = [
+      { label: "Ganti SparePart", nilai: 38 },
+      { label: "Perbaikan Software", nilai: 28 },
+      { label: "Pembersihan / Maintenance", nilai: 15 },
+      { label: "Pengecekan", nilai: 12 }
+    ];
+
+    function renderKategoriChart() {
+      const width = 420;
+      const height = 240;
+      const padLeft = 34;
+      const padRight = 14;
+      const padTop = 24;
+      const padBottom = 38;
+      const plotW = width - padLeft - padRight;
+      const plotH = height - padTop - padBottom;
+      const maxVal = 40;
+      let svg = '<svg viewBox="0 0 ' + width + ' ' + height + '" xmlns="http://www.w3.org/2000/svg">';
+      for (let v = 0; v <= maxVal; v += 8) {
+        const y = padTop + plotH - (v / maxVal) * plotH;
+        svg += '<line x1="' + padLeft + '" y1="' + y + '" x2="' + (width - padRight) + '" y2="' + y + '" stroke="#e2e8f0" stroke-dasharray="3,3" />';
+        svg += '<text x="' + (padLeft - 7) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" fill="#64748b">' + v + '</text>';
+      }
+      const slotW = plotW / dataKategori.length;
+      const barW = Math.min(34, slotW * 0.45);
+      dataKategori.forEach(function (d, i) {
+        const barH = (d.nilai / maxVal) * plotH;
+        const x = padLeft + i * slotW + (slotW - barW) / 2;
+        const y = padTop + plotH - barH;
+        const centerX = x + barW / 2;
+        svg += '<rect x="' + x + '" y="' + y + '" width="' + barW + '" height="' + barH + '" rx="3" fill="#7c7cf2" />';
+        svg += '<text x="' + centerX + '" y="' + (y - 5) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e293b">' + d.nilai + '</text>';
+        const kata = d.label.split(" / ");
+        if (kata.length > 1) {
+          svg += '<text x="' + centerX + '" y="' + (height - 20) + '" text-anchor="middle" font-size="8.5" fill="#475569">' + kata[0] + ' /</text>';
+          svg += '<text x="' + centerX + '" y="' + (height - 9) + '" text-anchor="middle" font-size="8.5" fill="#475569">' + kata[1] + '</text>';
+        } else {
+          const bagian = d.label.split(" ");
+          if (bagian.length >= 2) {
+            const baris1 = bagian.slice(0, Math.ceil(bagian.length / 2)).join(" ");
+            const baris2 = bagian.slice(Math.ceil(bagian.length / 2)).join(" ");
+            svg += '<text x="' + centerX + '" y="' + (height - 20) + '" text-anchor="middle" font-size="8.5" fill="#475569">' + baris1 + '</text>';
+            svg += '<text x="' + centerX + '" y="' + (height - 9) + '" text-anchor="middle" font-size="8.5" fill="#475569">' + baris2 + '</text>';
+          } else {
+            svg += '<text x="' + centerX + '" y="' + (height - 14) + '" text-anchor="middle" font-size="8.5" fill="#475569">' + d.label + '</text>';
+          }
+        }
+      });
+      svg += '</svg>';
+      document.getElementById("kategoriChartContainer").innerHTML = svg;
+    }
+    renderKategoriChart();
+  </script>
+</body>
+</html>

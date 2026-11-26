@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasir - Si Perbaiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Navbar / Topbar Rata Kiri */
+    .topbar {
+      width: 100%;
+      min-height: 60px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      min-width: 196px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .navbar-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      color: #60a5fa;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-box i {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #0f172a;
+      background: transparent;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Wrapper Utama */
+    .dashboard-wrapper {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Samping Seperti Gambar Kedua */
+    .sidebar {
+      width: 220px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 20px 0;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-item {
+      display: block;
+      padding: 13px 24px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(37, 99, 235, 0.45);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .menu-empty-info {
+      display: none;
+      padding: 12px 24px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* Konten Utama Kasir */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+      background-color: #ffffff;
+      padding: 22px 26px;
+    }
+
+    .page-header {
+      margin-bottom: 18px;
+    }
+
+    .page-header h1 {
+      font-size: 23px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+
+    .page-header p {
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    .kasir-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 20px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .panel-box {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    /* Kolom Pencarian Layanan */
+    .service-search {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      background-color: #ffffff;
+    }
+
+    .service-search i {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .service-search input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #0f172a;
+    }
+
+    /* Tombol Kategori Layanan */
+    .category-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .cat-btn {
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.15s ease;
+    }
+
+    .cat-btn[data-cat="Semua"] { background-color: #fee2e2; }
+    .cat-btn[data-cat="Laptop"] { background-color: #ffedd5; }
+    .cat-btn[data-cat="TV"] { background-color: #fef3c7; }
+    .cat-btn[data-cat="AC"] { background-color: #dcfce7; }
+    .cat-btn[data-cat="HP"] { background-color: #dbeafe; }
+    .cat-btn[data-cat="Lainnya"] { background-color: #f3e8ff; }
+
+    .cat-btn.active {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.25);
+    }
+
+    /* Grid Kartu Layanan Servis */
+    .service-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .item-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 8px;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .item-icon-box {
+      width: 34px;
+      height: 26px;
+      border: 1.5px solid #334155;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #0f172a;
+      background-color: #f8fafc;
+    }
+
+    .item-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.3;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-price {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .btn-tambah {
+      width: 100%;
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-tambah:hover {
+      background-color: #1e40af;
+    }
+
+    /* Sparepart Populer */
+    .section-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-top-row .panel-title {
+      margin-bottom: 0;
+    }
+
+    .btn-lihat-semua {
+      background-color: #e9d5ff;
+      color: #1e293b;
+      border: 1px solid #d8b4fe;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .sparepart-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .sparepart-img-box {
+      width: 100%;
+      height: 58px;
+      border-radius: 5px;
+      background-color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .sparepart-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Keranjang Transaksi */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+
+    table.cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+
+    table.cart-table thead th {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 7px 6px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    table.cart-table thead th:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    table.cart-table thead th:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      text-align: right;
+    }
+
+    table.cart-table tbody td {
+      padding: 7px 6px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      vertical-align: middle;
+    }
+
+    table.cart-table tbody td:last-child {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .qty-mini-btn {
+      background: #e2e8f0;
+      border: none;
+      border-radius: 3px;
+      width: 16px;
+      height: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 3px;
+    }
+
+    /* Data Pelanggan */
+    .sub-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .customer-list {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .customer-row {
+      display: grid;
+      grid-template-columns: 115px 12px 1fr;
+      align-items: center;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .customer-input {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      font-size: 12px;
+      color: #334155;
+      padding: 2px 4px;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .customer-input:focus {
+      border-color: #93c5fd;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Metode Pembayaran */
+    .payment-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .pay-btn {
+      border: 1px solid #cbd5e1;
+      background-color: #ffffff;
+      color: #1e293b;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .pay-btn.active {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #000c66;
+    }
+
+    .total-summary {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #334155;
+    }
+
+    .total-line.grand {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0f172a;
+      padding-top: 4px;
+    }
+
+    .btn-proses-bayar {
+      width: 100%;
+      height: 42px;
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-proses-bayar:hover {
+      background-color: #1e40af;
+    }
+
+    .status-bayar-msg {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #15803d;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* Responsif */
+    @media (max-width: 1100px) {
+      .kasir-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 10px;
+      }
+
+      .brand-box {
+        min-width: auto;
+      }
+
+      .search-box {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .dashboard-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-item {
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .content-area {
+        padding: 18px 16px;
+      }
+
+      .service-cards-grid,
+      .sparepart-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Rata Kiri -->
+  <header class="topbar">
+    <a href="menu utama.html" class="brand-box">
+      <img
+        src="logo.png"
+        alt="Logo Si Perbaiki"
+        class="navbar-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <i class="fa-solid fa-screwdriver-wrench brand-icon" style="display: none;"></i>
+      <span>Si Perbaiki</span>
+    </a>
+
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="menuSearchInput" placeholder="Cari menu (contoh: Menu, Nota, Keuangan, Kasir)...">
+    </div>
+
+    <div class="topbar-right">
+      <i class="fa-solid fa-bell" title="Notifikasi"></i>
+      <div class="admin-profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="adminNameTop">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Samping + Konten Utama -->
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="menu utama.html" class="nav-item">Menu Utama</a>
+      <a href="cetak nota.html" class="nav-item">Cetak Nota Terima</a>
+      <a href="laporan keuangan.html" class="nav-item">Laporan Keuangan</a>
+      <a href="laporan kinerja.html" class="nav-item">Laporan Kinerja</a>
+      <a href="kasir.html" class="nav-item active">Kasir</a>
+      <a href="pengaturan.html" class="nav-item">Pengaturan</a>
+      <a href="profil admin.html" class="nav-item">Profil Admin</a>
+      <div class="menu-empty-info" id="menuEmptyInfo">Menu tidak ditemukan.</div>
+    </aside>
+
+    <main class="content-area">
+      <div class="page-header">
+        <h1>Kasir</h1>
+        <p>Proses transaksi layanan dengan cepat dan mudah.</p>
+      </div>
+
+      <section class="kasir-grid">
+        <!-- Kolom Kiri: Layanan Servis & Sparepart Populer -->
+        <div class="left-column">
+          <div class="panel-box">
+            <h2 class="panel-title">Layanan Servis</h2>
+
+            <div class="service-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="serviceSearchInput" placeholder="Kolom Pencarian">
+            </div>
+
+            <div class="category-bar" id="categoryBar">
+              <button type="button" class="cat-btn active" data-cat="Semua">Semua</button>
+              <button type="button" class="cat-btn" data-cat="Laptop">Laptop</button>
+              <button type="button" class="cat-btn" data-cat="TV">TV</button>
+              <button type="button" class="cat-btn" data-cat="AC">AC</button>
+              <button type="button" class="cat-btn" data-cat="HP">HP</button>
+              <button type="button" class="cat-btn" data-cat="Lainnya">Lainnya</button>
+            </div>
+
+            <div class="service-cards-grid" id="serviceCardsGrid"></div>
+          </div>
+
+          <div class="panel-box">
+            <div class="section-top-row">
+              <h2 class="panel-title">Sparepart Populer</h2>
+              <button type="button" class="btn-lihat-semua" id="btnLihatSemua">Lihat Semua &gt;</button>
+            </div>
+            <div class="sparepart-grid" id="sparepartGrid"></div>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Keranjang Transaksi, Data Pelanggan & Metode Pembayaran -->
+        <aside class="panel-box">
+          <h2 class="panel-title">Keranjang Transaksi</h2>
+
+          <div class="table-responsive">
+            <table class="cart-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Barang</th>
+                  <th>Harga</th>
+                  <th>Qty</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyKeranjang"></tbody>
+            </table>
+          </div>
+
+          <h3 class="sub-heading">Data Pelanggan</h3>
+          <div class="customer-list">
+            <div class="customer-row">
+              <span>Nama Pelangganan</span>
+              <span>:</span>
+              <input type="text" id="custNama" class="customer-input" value="Kathryn Murphy">
+            </div>
+            <div class="customer-row">
+              <span>No. Telepon</span>
+              <span>:</span>
+              <input type="text" id="custTelp" class="customer-input" value="087-555-0115">
+            </div>
+            <div class="customer-row">
+              <span>Alamat</span>
+              <span>:</span>
+              <input type="text" id="custAlamat" class="customer-input" value="2464 Royal Ln. Mesa, New Jersey">
+            </div>
+            <div class="customer-row">
+              <span>Catatan</span>
+              <span>:</span>
+              <input type="text" id="custCatatan" class="customer-input" value="-">
+            </div>
+          </div>
+
+          <h3 class="sub-heading">Metode Pembayaran</h3>
+          <div class="payment-methods" id="paymentMethods">
+            <button type="button" class="pay-btn active" data-pay="Tunai">Tunai</button>
+            <button type="button" class="pay-btn" data-pay="Transfer">Transfer</button>
+            <button type="button" class="pay-btn" data-pay="E-Wallet">E-Wallet</button>
+            <button type="button" class="pay-btn" data-pay="QRIS">QRIS</button>
+          </div>
+
+          <div class="total-summary">
+            <div class="total-line">
+              <span>Subtotal &nbsp;&nbsp;:</span>
+              <strong id="textSubtotal">Rp 600.000</strong>
+            </div>
+            <div class="total-line">
+              <span>Diskon &nbsp;&nbsp;&nbsp;&nbsp;:</span>
+              <span id="textDiskon">Rp 0</span>
+            </div>
+            <div class="total-line grand">
+              <span>Total</span>
+              <strong id="textTotal">Rp 600.000</strong>
+            </div>
+          </div>
+
+          <button type="button" class="btn-proses-bayar" id="btnProsesBayar">Proses Pembayaran</button>
+          <div class="status-bayar-msg" id="statusBayarMsg"></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>&copy;Si Perbaiki. All Rights Reserved.</span>
+    <span>Admin Dashboard v1.0</span>
+  </footer>
+
+  <script>
+    const savedAdmin = localStorage.getItem("siPerbaikiAdmin");
+    if (savedAdmin && savedAdmin.trim() !== "") {
+      document.getElementById("adminNameTop").textContent = savedAdmin;
+    }
+
+    // Pencarian menu di sidebar lewat kotak pencarian atas
+    const menuSearchInput = document.getElementById("menuSearchInput");
+    const navItems = document.querySelectorAll("#sidebarMenu .nav-item");
+    const menuEmptyInfo = document.getElementById("menuEmptyInfo");
+
+    menuSearchInput.addEventListener("input", function () {
+      const keyword = menuSearchInput.value.trim().toLowerCase();
+      let cocokCount = 0;
+
+      navItems.forEach(function (link) {
+        const namaMenu = link.textContent.toLowerCase();
+        if (namaMenu.includes(keyword)) {
+          link.style.display = "block";
+          cocokCount++;
+        } else {
+          link.style.display = "none";
+        }
+      });
+
+      menuEmptyInfo.style.display = cocokCount === 0 ? "block" : "none";
+    });
+
+    menuSearchInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        for (let i = 0; i < navItems.length; i++) {
+          if (navItems[i].style.display !== "none") {
+            window.location.href = navItems[i].getAttribute("href");
+            break;
+          }
+        }
+      }
+    });
+
+    function formatRp(angka) {
+      return "Rp " + Number(angka).toLocaleString("id-ID");
+    }
+
+    function formatAngka(angka) {
+      return Number(angka).toLocaleString("id-ID");
+    }
+
+    // Data Layanan Servis
+    const layananServis = [
+      { id: "srv-1", nama: "Cek kerusakan Laptop", harga: 50000, kategori: "Laptop", ikon: "fa-laptop" },
+      { id: "srv-2", nama: "Ganti LCD Laptop", harga: 350000, kategori: "Laptop", ikon: "fa-laptop" },
+      { id: "srv-3", nama: "Cek kerusakan HP", harga: 50000, kategori: "HP", ikon: "fa-mobile-screen-button" },
+      { id: "srv-4", nama: "Ganti LCD HP", harga: 300000, kategori: "HP", ikon: "fa-mobile-screen-button" },
+      { id: "srv-5", nama: "Cek kerusakan TV", harga: 75000, kategori: "TV", ikon: "fa-tv" },
+      { id: "srv-6", nama: "Cuci AC", harga: 150000, kategori: "AC", ikon: "fa-wind" },
+      { id: "srv-7", nama: "Install OS Laptop", harga: 100000, kategori: "Laptop", ikon: "fa-laptop-code" },
+      { id: "srv-8", nama: "Ganti baterai HP", harga: 200000, kategori: "HP", ikon: "fa-battery-half" }
+    ];
+
+    // Data Sparepart Populer (ganti src gambar sesuai file lokal milikmu)
+    const sparepartPopuler = [
+      { id: "spr-1", nama: "Baterai Laptop", harga: 250000, foto: "baterai-laptop.jpg", ikon: "fa-car-battery" },
+      { id: "spr-2", nama: "LCD Laptop", harga: 650000, foto: "lcd-laptop.jpg", ikon: "fa-display" },
+      { id: "spr-3", nama: "Charger Laptop", harga: 200000, foto: "charger-laptop.jpg", ikon: "fa-plug" },
+      { id: "spr-4", nama: "Baterai HP", harga: 180000, foto: "baterai-hp.jpg", ikon: "fa-battery-full" },
+      { id: "spr-5", nama: "LCD HP", harga: 350000, foto: "lcd-hp.jpg", ikon: "fa-mobile" },
+      { id: "spr-6", nama: "Keyboard Laptop", harga: 150000, foto: "keyboard-laptop.jpg", ikon: "fa-keyboard" },
+      { id: "spr-7", nama: "Kipas Laptop", harga: 120000, foto: "kipas-laptop.jpg", ikon: "fa-fan" },
+      { id: "spr-8", nama: "Kabel Fleksibel", harga: 85000, foto: "kabel-fleksibel.jpg", ikon: "fa-microchip" }
+    ];
+
+    // Isi awal Keranjang Transaksi
+    let keranjang = [
+      { nama: "Ganti LCD Laptop", harga: 350000, qty: 1 },
+      { nama: "Cek kerusakan HP", harga: 50000, qty: 1 },
+      { nama: "Baterai Laptop (ORI)", harga: 200000, qty: 1 }
+    ];
+
+    let kategoriAktif = "Semua";
+    let metodeAktif = "Tunai";
+
+    const serviceCardsGrid = document.getElementById("serviceCardsGrid");
+    const sparepartGrid = document.getElementById("sparepartGrid");
+    const serviceSearchInput = document.getElementById("serviceSearchInput");
+    const categoryBar = document.getElementById("categoryBar");
+    const tbodyKeranjang = document.getElementById("tbodyKeranjang");
+    const textSubtotal = document.getElementById("textSubtotal");
+    const textDiskon = document.getElementById("textDiskon");
+    const textTotal = document.getElementById("textTotal");
+    const statusBayarMsg = document.getElementById("statusBayarMsg");
+
+    function tambahKeKeranjang(nama, harga) {
+      const idx = keranjang.findIndex(function (item) {
+        return item.nama === nama;
+      });
+      if (idx !== -1) {
+        keranjang[idx].qty += 1;
+      } else {
+        keranjang.push({ nama: nama, harga: harga, qty: 1 });
+      }
+      renderKeranjang();
+      statusBayarMsg.textContent = "";
+    }
+
+    function ubahQty(index, delta) {
+      if (!keranjang[index]) return;
+      keranjang[index].qty += delta;
+      if (keranjang[index].qty <= 0) {
+        keranjang.splice(index, 1);
+      }
+      renderKeranjang();
+    }
+
+    function renderLayanan() {
+      const cari = serviceSearchInput.value.trim().toLowerCase();
+      serviceCardsGrid.innerHTML = "";
+
+      const hasil = layananServis.filter(function (srv) {
+        const cocokKat = kategoriAktif === "Semua" || srv.kategori === kategoriAktif;
+        const cocokNama = srv.nama.toLowerCase().includes(cari);
+        return cocokKat && cocokNama;
+      });
+
+      if (hasil.length === 0) {
+        serviceCardsGrid.innerHTML = '<p style="grid-column:1/-1;font-size:12px;color:#64748b;">Layanan tidak ditemukan.</p>';
+        return;
+      }
+
+      hasil.forEach(function (srv) {
+        serviceCardsGrid.innerHTML +=
+          '<div class="item-card">' +
+            '<div class="item-icon-box"><i class="fa-solid ' + srv.ikon + '"></i></div>' +
+            '<div class="item-name">' + srv.nama + '</div>' +
+            '<div class="item-price">' + formatRp(srv.harga) + '</div>' +
+            '<button type="button" class="btn-tambah" onclick="tambahKeKeranjang(\'' + srv.nama.replace(/'/g, "\\'") + '\', ' + srv.harga + ')">+ Tambah</button>' +
+          '</div>';
+      });
+    }
+
+    function renderSparepart() {
+      sparepartGrid.innerHTML = "";
+      sparepartPopuler.forEach(function (spr) {
+        sparepartGrid.innerHTML +=
+          '<div class="item-card">' +
+            '<div class="sparepart-img-box">' +
+              '<img src="' + spr.foto + '" alt="' + spr.nama + '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'inline-block\';">' +
+              '<i class="fa-solid ' + spr.ikon + '" style="display:none;font-size:20px;color:#475569;"></i>' +
+            '</div>' +
+            '<div class="item-name">' + spr.nama + '</div>' +
+            '<div class="item-price">' + formatRp(spr.harga) + '</div>' +
+            '<button type="button" class="btn-tambah" onclick="tambahKeKeranjang(\'' + spr.nama.replace(/'/g, "\\'") + '\', ' + spr.harga + ')">+ Tambah</button>' +
+          '</div>';
+      });
+    }
+
+    function renderKeranjang() {
+      tbodyKeranjang.innerHTML = "";
+      let subtotal = 0;
+
+      if (keranjang.length === 0) {
+        tbodyKeranjang.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748b;">Keranjang masih kosong.</td></tr>';
+      } else {
+        keranjang.forEach(function (item, i) {
+          const sub = item.harga * item.qty;
+          subtotal += sub;
+          tbodyKeranjang.innerHTML +=
+            "<tr>" +
+              "<td>" + (i + 1) + "</td>" +
+              "<td>" + item.nama + "</td>" +
+              "<td>" + formatAngka(item.harga) + "</td>" +
+              "<td>" + item.qty + ' <button type="button" class="qty-mini-btn" onclick="ubahQty(' + i + ', 1)">+</button><button type="button" class="qty-mini-btn" onclick="ubahQty(' + i + ', -1)">-</button></td>' +
+              "<td>" + formatAngka(sub) + "</td>" +
+            "</tr>";
+        });
+      }
+
+      const diskon = 0;
+      const total = subtotal - diskon;
+      textSubtotal.textContent = formatRp(subtotal);
+      textDiskon.textContent = formatRp(diskon);
+      textTotal.textContent = formatRp(total);
+    }
+
+    serviceSearchInput.addEventListener("input", renderLayanan);
+
+    categoryBar.addEventListener("click", function (event) {
+      const btn = event.target.closest(".cat-btn");
+      if (!btn) return;
+      kategoriAktif = btn.dataset.cat;
+      categoryBar.querySelectorAll(".cat-btn").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+      renderLayanan();
+    });
+
+    document.getElementById("btnLihatSemua").addEventListener("click", function () {
+      kategoriAktif = "Semua";
+      serviceSearchInput.value = "";
+      categoryBar.querySelectorAll(".cat-btn").forEach(function (b) {
+        b.classList.toggle("active", b.dataset.cat === "Semua");
+      });
+      renderLayanan();
+    });
+
+    document.getElementById("paymentMethods").addEventListener("click", function (event) {
+      const btn = event.target.closest(".pay-btn");
+      if (!btn) return;
+      metodeAktif = btn.dataset.pay;
+      document.querySelectorAll("#paymentMethods .pay-btn").forEach(function (b) {
+        b.classList.toggle("active", b === btn);
+      });
+    });
+
+    document.getElementById("btnProsesBayar").addEventListener("click", function () {
+      if (keranjang.length === 0) {
+        statusBayarMsg.style.color = "#b91c1c";
+        statusBayarMsg.textContent = "Pilih minimal satu layanan atau sparepart dulu.";
+        return;
+      }
+      const namaPelanggan = document.getElementById("custNama").value.trim() || "Pelanggan";
+      statusBayarMsg.style.color = "#15803d";
+      statusBayarMsg.textContent =
+        "Pembayaran " + metodeAktif + " untuk " + namaPelanggan + " (" + textTotal.textContent + ") berhasil diproses.";
+    });
+
+    renderLayanan();
+    renderSparepart();
+    renderKeranjang();
+  </script>
+</body>
+</html>

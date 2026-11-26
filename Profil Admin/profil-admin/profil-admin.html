@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Perbaiki - Profil Admin</title>
+    <link rel="stylesheet" href="profil-admin.css">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script src="../tema.js"></script>
+</head>
+<body>
+
+    <header class="top-navbar">
+        <a href="laporan-kinerja.html" class="navbar-brand">
+            <span class="iconify" data-icon="lucide:wrench" data-width="20" data-height="20"></span>
+            <span>Si Perbaiki</span>
+        </a>
+
+        <div class="navbar-search">
+            <span class="iconify" data-icon="lucide:search" data-width="14" data-height="14"></span>
+            <input type="text" placeholder="Cari sesuatu...">
+        </div>
+
+        <div class="navbar-right">
+            <div class="navbar-icons">
+                <span class="iconify" data-icon="lucide:bell" data-width="17" data-height="17"></span>
+                <span class="iconify" data-icon="lucide:user-circle" data-width="18" data-height="18"></span>
+            </div>
+            <span class="navbar-role">Admin</span>
+        </div>
+    </header>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="laporan-kinerja.html" class="nav-link">Menu Utama</a>
+                <a href="kasir.html" class="nav-link">Cetak Nota Terima</a>
+                <a href="laporan-kinerja.html" class="nav-link">Laporan Keuangan</a>
+                <a href="../laporan-kinerja/laporan-kinerja.html" class="nav-link">Laporan Kinerja</a>
+                <a href="../kasir/kasir.html" class="nav-link">Kasir</a>
+                <a href="../pengaturan/pengaturan.html" class="nav-link">Pengaturan</a>
+                <a href="../profil-admin/profil-admin.html" class="nav-link active">Profil Admin</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Profil Admin</h1>
+                <p>Kelola informasi pribadi, keamanan akun, dan prefensi Anda.</p>
+            </div>
+
+            <!-- TOP BANNER (Avatar + Tombol Unduh + Pills + Quote) -->
+            <div class="profile-banner">
+                <div class="banner-profile">
+                    <!-- Bagian Foto Profil & Tombol Unduh -->
+                    <div class="banner-avatar-col">
+                        <div class="banner-avatar-circle">
+                            <img src="admin-avatar.png" alt="Eleanor Pena" onerror="this.src='https://i.pravatar.cc/150?img=47'">
+                        </div>
+                        <button class="btn-unduh">
+                            Unduh
+                            <span class="iconify" data-icon="lucide:download" data-width="11" data-height="11"></span>
+                        </button>
+                    </div>
+
+                    <div class="banner-pills">
+                        <div class="pill-item">Eleanor Pena</div>
+                        <div class="pill-item">eleanorpena@gmail.com</div>
+                        <div class="pill-item">087-555-0129</div>
+                        <div class="pill-item">California</div>
+                    </div>
+                </div>
+
+                <div class="banner-quote">
+                    <p>“Pelayanan terbaik &nbsp;berasal dari tim yang hebat.”</p>
+                    <p>----------</p>
+                    <p>Admin</p>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <div class="card">
+                    <h2 class="card-title">Informasi Pribadi</h2>
+                    <div class="personal-fields">
+                        <div class="field-box">
+                            <label>Nama Lengkap</label>
+                            <div class="gray-input">Eleanor Pena</div>
+                        </div>
+                        <div class="field-box">
+                            <label>Username</label>
+                            <div class="gray-input">@eleanorpena</div>
+                        </div>
+                        <div class="field-box">
+                            <label>Email</label>
+                            <div class="gray-input"><u>eleanorpena@gmail.com</u></div>
+                        </div>
+                        <div class="field-box">
+                            <label>No. Telepon</label>
+                            <div class="gray-input">087-555-0219</div>
+                        </div>
+                        <div class="field-box">
+                            <label>Jabatan</label>
+                            <div class="gray-input">Administrator</div>
+                        </div>
+                        <div class="field-box">
+                            <label>Alamat</label>
+                            <div class="gray-input address-box">3891 Ranchview Dr.<br>Richardson, California 62639</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-stack">
+                    <div class="card">
+                        <h2 class="card-title">Informasi Akun</h2>
+                        <div class="info-rows">
+                            <div class="info-row">
+                                <span class="info-key">Role</span>
+                                <span>: &nbsp;&nbsp;Administrator</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-key">Tanggal Bergabung</span>
+                                <span>: &nbsp;&nbsp;06 July 2025</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-key">Terakhir Login</span>
+                                <span>: &nbsp;&nbsp;22 November 2026</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-key">Status</span>
+                                <span>: &nbsp;&nbsp;<span class="badge-aktif">Aktif</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h2 class="card-title">Aktivitas Terakhir</h2>
+                            <a href="#" class="btn-lihat-semua">Lihat Semua &gt;</a>
+                        </div>
+                        <div class="info-rows">
+                            <div class="info-row">
+                                <span class="info-key wide-key">Login ke Sistem</span>
+                                <span>: &nbsp;&nbsp;22 November 2026 (08:00 WIB)</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-key wide-key">Mengubah &nbsp;Data Teknisi</span>
+                                <span>: &nbsp;&nbsp;20 November 2026 (16:40 WIB)</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-key wide-key">Mencetak Nota</span>
+                                <span>: &nbsp;&nbsp;23 November 2026 (10:00 WIB)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <span>©Si Perbaiki. All Rights Reserved.</span>
+        <span>Admin &nbsp;Dashboard v1.0</span>
+    </footer>
+
+    <script src="profil-admin.js"></script>
+</body>
+</html>

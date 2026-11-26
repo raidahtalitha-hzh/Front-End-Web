@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Perbaiki - Kasir</title>
+    <link rel="stylesheet" href="kasir.css">
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <script src="../tema.js"></script>
+</head>
+<body>
+
+    <header class="top-navbar">
+        <a href="laporan-kinerja.html" class="navbar-brand">
+            <span class="iconify" data-icon="lucide:wrench" data-width="20" data-height="20"></span>
+            <span>Si Perbaiki</span>
+        </a>
+
+        <div class="navbar-search">
+            <span class="iconify" data-icon="lucide:search" data-width="14" data-height="14"></span>
+            <input type="text" placeholder="Cari sesuatu...">
+        </div>
+
+        <div class="navbar-right">
+            <div class="navbar-icons">
+                <span class="iconify" data-icon="lucide:bell" data-width="17" data-height="17"></span>
+                <span class="iconify" data-icon="lucide:user-circle" data-width="18" data-height="18"></span>
+            </div>
+            <span class="navbar-role">Admin</span>
+        </div>
+    </header>
+
+    <div class="layout-wrapper">
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="laporan-kinerja.html" class="nav-link">Menu Utama</a>
+                <a href="kasir.html" class="nav-link">Cetak Nota Terima</a>
+                <a href="laporan-kinerja.html" class="nav-link">Laporan Keuangan</a>
+                <a href="../laporan-kinerja/laporan-kinerja.html" class="nav-link">Laporan Kinerja</a>
+                <a href="../kasir/kasir.html" class="nav-link active">Kasir</a>
+                <a href="../pengaturan/pengaturan.html" class="nav-link">Pengaturan</a>
+                <a href="../profil-admin/profil-admin.html" class="nav-link">Profil Admin</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Kasir</h1>
+                <p>Proses transaksi layanan dengan cepat dan mudah.</p>
+            </div>
+
+            <div class="kasir-grid">
+                <div class="left-stack">
+                    <div class="card">
+                        <h2 class="card-title">Layanan Servis</h2>
+                        <div class="servis-search">
+                            <span class="iconify" data-icon="lucide:search" data-width="13" data-height="13"></span>
+                            <input type="text" placeholder="Kolom Pencarian">
+                        </div>
+
+                        <div class="category-pills">
+                            <button class="pill p-semua">Semua</button>
+                            <button class="pill p-laptop">Laptop</button>
+                            <button class="pill p-tv">TV</button>
+                            <button class="pill p-ac">AC</button>
+                            <button class="pill p-hp">HP</button>
+                            <button class="pill p-lainnya">Lainnya</button>
+                        </div>
+
+                        <div class="servis-cards">
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:laptop" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Cek kerusakan Laptop</span>
+                                </div>
+                                <div class="servis-price">Rp 50.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:laptop" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Ganti LCD Laptop</span>
+                                </div>
+                                <div class="servis-price">Rp 350.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:smartphone" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Cek kerusakan HP</span>
+                                </div>
+                                <div class="servis-price">Rp 50.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:smartphone" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Ganti LCD HP</span>
+                                </div>
+                                <div class="servis-price">Rp 300.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:tv" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Cek kerusakan TV</span>
+                                </div>
+                                <div class="servis-price">Rp 75.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:wind" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Cuci AC</span>
+                                </div>
+                                <div class="servis-price">Rp 150.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:laptop" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Install OS &nbsp;Laptop</span>
+                                </div>
+                                <div class="servis-price">Rp 100.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="servis-card">
+                                <div class="servis-top">
+                                    <div class="mini-icon"><span class="iconify" data-icon="lucide:battery-charging" data-width="14" data-height="14"></span></div>
+                                    <span class="servis-title">Ganti &nbsp;baterai HP</span>
+                                </div>
+                                <div class="servis-price">Rp 200.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAGIAN SPAREPART POPULER YANG SUDAH DIUBAH MENGGUNAKAN GAMBAR ASLI -->
+                    <div class="card">
+                        <div class="card-header-flex">
+                            <h2 class="card-title">Sparepart Populer</h2>
+                            <a href="#" class="btn-lihat-semua">Lihat Semua &gt;</a>
+                        </div>
+
+                        <div class="sparepart-cards">
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/baterai.png" alt="Baterai Laptop" onerror="this.src='baterai.png'">
+                                </div>
+                                <div class="part-name">Baterai Laptop</div>
+                                <div class="part-price">Rp 250.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/lcd.png" alt="LCD Laptop" onerror="this.src='lcd.png'">
+                                </div>
+                                <div class="part-name">LCD Laptop</div>
+                                <div class="part-price">Rp 650.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/charger.png" alt="Charger Laptop" onerror="this.src='charger.png'">
+                                </div>
+                                <div class="part-name">Charger Laptop</div>
+                                <div class="part-price">Rp 200.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/baterai hp.png" alt="Baterai HP" onerror="this.src='baterai hp.png'">
+                                </div>
+                                <div class="part-name">Baterai HP</div>
+                                <div class="part-price">Rp 180.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/lcd hp.jpeg" alt="LCD HP" onerror="this.src='lcd hp.jpeg'">
+                                </div>
+                                <div class="part-name">LCD HP</div>
+                                <div class="part-price">Rp 350.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/keyboard.jpeg" alt="Keyboard Laptop" onerror="this.src='keyboard.jpeg'">
+                                </div>
+                                <div class="part-name">Keyboard Laptop</div>
+                                <div class="part-price">Rp 150.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/kipas.jpeg" alt="Kipas Laptop" onerror="this.src='kipas.jpeg'">
+                                </div>
+                                <div class="part-name">Kipas Laptop</div>
+                                <div class="part-price">Rp 120.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                            <div class="part-card">
+                                <div class="part-thumb">
+                                    <img src="../img/kabel flex.jpeg" alt="Kabel Fleksibel" onerror="this.src='kabel flex.jpeg'">
+                                </div>
+                                <div class="part-name">Kabel Fleksibel</div>
+                                <div class="part-price">Rp 85.000</div>
+                                <button class="btn-add">+ Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card cart-card">
+                    <h2 class="card-title">Keranjang &nbsp;Transaksi</h2>
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Barang</th>
+                                <th>Harga</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Ganti LCD<br>Laptop</td>
+                                <td>350.000</td>
+                                <td>1</td>
+                                <td>350.000</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Cek kerusakan<br>HP</td>
+                                <td>50.000</td>
+                                <td>1</td>
+                                <td>50.000</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Baterai Laptop<br>(ORI)</td>
+                                <td>200.000</td>
+                                <td>1</td>
+                                <td>200.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 class="sub-section-title">Data Pelanggan</h3>
+                    <div class="customer-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Nama Pelanggan</span>
+                            <span class="detail-colon">:</span>
+                            <span class="detail-val">Kathryn Murphy</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">No. Telepon</span>
+                            <span class="detail-colon">:</span>
+                            <span class="detail-val">087- 555-0115</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Alamat</span>
+                            <span class="detail-colon">:</span>
+                            <span class="detail-val">1901 Thornridge Cir, Shiloh,<br>Hawaii 81063</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Catatan</span>
+                            <span class="detail-colon">:</span>
+                            <span class="detail-val">-</span>
+                        </div>
+                    </div>
+
+                    <h3 class="sub-section-title">Metode Pembayaran</h3>
+                    <div class="payment-grid">
+                        <button class="pay-option active">Tunai</button>
+                        <button class="pay-option">Transfer</button>
+                        <button class="pay-option">E-Wallet</button>
+                        <button class="pay-option">QRIS</button>
+                    </div>
+
+                    <div class="totals-box">
+                        <div class="total-line">
+                            <span><strong>Subtotal</strong> &nbsp;&nbsp;:</span>
+                            <span>Rp 600.000</span>
+                        </div>
+                        <div class="total-line">
+                            <span><strong>Diskon</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                            <span>Rp 0</span>
+                        </div>
+                        <div class="grand-total">
+                            <span>Total</span>
+                            <span>Rp 600.000</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-checkout">Proses Pembayaran</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="app-footer">
+        <span>©Si Perbaiki. All Rights Reserved.</span>
+        <span>Admin &nbsp;Dashboard v1.0</span>
+    </footer>
+
+    <script src="kasir.js"></script>
+
+</body>
+</html>

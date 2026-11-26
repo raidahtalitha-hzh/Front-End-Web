@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Keuangan - Si Perbaiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Navbar / Topbar Rata Kiri */
+    .topbar {
+      width: 100%;
+      min-height: 60px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      min-width: 196px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .navbar-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      color: #60a5fa;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-box i {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #0f172a;
+      background: transparent;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Wrapper Utama */
+    .dashboard-wrapper {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 20px 0;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-item {
+      display: block;
+      padding: 13px 24px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(37, 99, 235, 0.45);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .menu-empty-info {
+      display: none;
+      padding: 12px 24px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* Konten Utama */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+      background-color: #ffffff;
+      padding: 22px 26px;
+    }
+
+    .page-header {
+      margin-bottom: 18px;
+    }
+
+    .page-header h1 {
+      font-size: 23px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+
+    .page-header p {
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    /* 4 Kartu Keuangan */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .stat-info {
+      min-width: 0;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Grid Utama Bawah: Kiri Rincian Transaksi, Kanan Ringkasan & Download */
+    .keuangan-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 20px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .panel-box {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    /* Header Ringkasan Keuangan + Pilihan Periode di Pojok Kanan Atas */
+    .summary-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .summary-header .panel-title {
+      margin-bottom: 0;
+    }
+
+    .periode-select {
+      background-color: #eff6ff;
+      color: #000c66;
+      border: 1px solid #93c5fd;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .periode-select:focus {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+
+    /* Tabel Rincian Transaksi */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.transaksi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.transaksi-table thead th {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 10px 12px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    table.transaksi-table thead th:first-child {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    table.transaksi-table thead th:last-child {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    table.transaksi-table tbody td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* Paginasi */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .page-btn {
+      min-width: 28px;
+      height: 28px;
+      padding: 0 7px;
+      border: 1px solid #cbd5e1;
+      background-color: #ffffff;
+      color: #0f172a;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .page-btn.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border-color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .page-dots {
+      font-size: 12px;
+      color: #64748b;
+      padding: 0 2px;
+    }
+
+    /* Ringkasan Keuangan */
+    .summary-list {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 155px 14px 1fr;
+      align-items: baseline;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 13px;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+
+    .summary-label {
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .summary-colon {
+      color: #64748b;
+      text-align: center;
+    }
+
+    .summary-val {
+      color: #0f172a;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    /* Download Laporan */
+    .download-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .btn-download {
+      background-color: #bae6fd;
+      color: #0f172a;
+      border: 1px solid #7dd3fc;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-download:hover {
+      background-color: #7dd3fc;
+    }
+
+    .info-unduh {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #15803d;
+      font-weight: 600;
+      text-align: center;
+      min-height: 18px;
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* Responsif */
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .keuangan-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 10px;
+      }
+
+      .brand-box {
+        min-width: auto;
+      }
+
+      .search-box {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .dashboard-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-item {
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .content-area {
+        padding: 18px 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Rata Kiri -->
+  <header class="topbar">
+    <a href="menu.html" class="brand-box">
+      <img
+        src="logo.png"
+        alt="Logo Si Perbaiki"
+        class="navbar-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <i class="fa-solid fa-screwdriver-wrench brand-icon" style="display: none;"></i>
+      <span>Si Perbaiki</span>
+    </a>
+
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="menuSearchInput" placeholder="Cari menu (contoh: Menu, Nota, Keuangan)...">
+    </div>
+
+    <div class="topbar-right">
+      <i class="fa-solid fa-bell" title="Notifikasi"></i>
+      <div class="admin-profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="adminNameTop">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar + Konten Utama -->
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="menu utama.html" class="nav-item">Menu Utama</a>
+      <a href="cetak nota.html" class="nav-item">Cetak Nota Terima</a>
+      <a href="laporan keuangan.html" class="nav-item active">Laporan Keuangan</a>
+      <a href="laporan-kinerja.html" class="nav-item">Laporan Kinerja</a>
+      <a href="kasir.html" class="nav-item">Kasir</a>
+      <a href="pengaturan.html" class="nav-item">Pengaturan</a>
+      <a href="profil admin.html" class="nav-item">Profil Admin</a>
+      <div class="menu-empty-info" id="menuEmptyInfo">Menu tidak ditemukan.</div>
+    </aside>
+
+    <main class="content-area">
+      <div class="page-header">
+        <h1>Laporan Keuangan</h1>
+        <p>Pantau pemasukkan, pengeluaran secara real time</p>
+      </div>
+
+      <!-- 4 Kartu Keuangan -->
+      <section class="stats-grid" id="kartuKeuangan"></section>
+
+      <!-- Grid Rincian Transaksi + Ringkasan & Download -->
+      <section class="keuangan-grid">
+        <div class="panel-box">
+          <h2 class="panel-title">Rincian Transaksi</h2>
+          <p class="panel-subtitle">Daftar transaksi pemasukkan dan pengeluaran dalam periode terpilih.</p>
+
+          <div class="table-responsive">
+            <table class="transaksi-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal</th>
+                  <th>Jenis</th>
+                  <th>Metode</th>
+                  <th>Jumlah</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyTransaksi"></tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="paginationKeuangan">
+            <button type="button" class="page-btn">&lt;</button>
+            <button type="button" class="page-btn active">1</button>
+            <button type="button" class="page-btn">2</button>
+            <button type="button" class="page-btn">3</button>
+            <span class="page-dots">....</span>
+            <button type="button" class="page-btn">6</button>
+            <button type="button" class="page-btn">&gt;</button>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="panel-box">
+            <div class="summary-header">
+              <h2 class="panel-title">Ringkasan Keuangan</h2>
+              <select id="filterPeriodeRingkasan" class="periode-select" aria-label="Pilih periode ringkasan">
+                <option value="harian">Harian</option>
+                <option value="bulanan" selected>Per Bulan</option>
+                <option value="tahunan">Per Tahun</option>
+              </select>
+            </div>
+            <div class="summary-list" id="ringkasanKeuangan"></div>
+          </div>
+
+          <div class="panel-box">
+            <h2 class="panel-title">Download Laporan</h2>
+            <p class="panel-subtitle">Unduh laporan keuangan dalam format PDF atau Excel</p>
+            <div class="download-actions">
+              <button type="button" class="btn-download" id="btnPdf">Download PDF</button>
+              <button type="button" class="btn-download" id="btnExcel">Download Excel</button>
+            </div>
+            <div class="info-unduh" id="infoUnduh"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>&copy;Si Perbaiki. All Rights Reserved.</span>
+    <span>Admin Dashboard v1.0</span>
+  </footer>
+
+  <script>
+    const savedAdmin = localStorage.getItem("siPerbaikiAdmin");
+    if (savedAdmin && savedAdmin.trim() !== "") {
+      document.getElementById("adminNameTop").textContent = savedAdmin;
+    }
+
+    // Pencarian menu di sidebar lewat kotak pencarian atas
+    const menuSearchInput = document.getElementById("menuSearchInput");
+    const navItems = document.querySelectorAll("#sidebarMenu .nav-item");
+    const menuEmptyInfo = document.getElementById("menuEmptyInfo");
+
+    menuSearchInput.addEventListener("input", function () {
+      const keyword = menuSearchInput.value.trim().toLowerCase();
+      let cocokCount = 0;
+
+      navItems.forEach(function (link) {
+        const namaMenu = link.textContent.toLowerCase();
+        if (namaMenu.includes(keyword)) {
+          link.style.display = "block";
+          cocokCount++;
+        } else {
+          link.style.display = "none";
+        }
+      });
+
+      menuEmptyInfo.style.display = cocokCount === 0 ? "block" : "none";
+    });
+
+    menuSearchInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        for (let i = 0; i < navItems.length; i++) {
+          if (navItems[i].style.display !== "none") {
+            window.location.href = navItems[i].getAttribute("href");
+            break;
+          }
+        }
+      }
+    });
+
+    function formatAngkaId(angka) {
+      return Math.round(angka).toLocaleString("id-ID");
+    }
+
+    // Data 4 kartu keuangan
+    const pendapatanBulanan = 28450000;
+    const pengeluaranBulanan = 8320000;
+    const totalTransaksiAngka = 98;
+    const labaBersihBulanan = pendapatanBulanan - pengeluaranBulanan;
+
+    const dataKartu = [
+      { label: "Total Pendapatan", nilai: formatAngkaId(pendapatanBulanan), ikon: "fa-solid fa-sack-dollar" },
+      { label: "Total Pengeluaran", nilai: formatAngkaId(pengeluaranBulanan), ikon: "fa-solid fa-file-invoice-dollar" },
+      { label: "Total Transaksi", nilai: String(totalTransaksiAngka), ikon: "fa-solid fa-file-lines" },
+      { label: "Laba Bersih", nilai: formatAngkaId(labaBersihBulanan), ikon: "fa-solid fa-money-bill-trend-up" }
+    ];
+
+    const kartuKeuangan = document.getElementById("kartuKeuangan");
+    dataKartu.forEach(function (item) {
+      kartuKeuangan.innerHTML +=
+        '<div class="stat-card">' +
+          '<div class="stat-icon"><i class="' + item.ikon + '"></i></div>' +
+          '<div class="stat-info">' +
+            '<div class="stat-label">' + item.label + '</div>' +
+            '<div class="stat-value">' + item.nilai + '</div>' +
+          '</div>' +
+        '</div>';
+    });
+
+    // Data tabel rincian transaksi
+    const dataTransaksi = [
+      { no: 1, tanggal: "21/6/26", jenis: "Laptop", metode: "Tunai", jumlah: "500.000" },
+      { no: 2, tanggal: "16/8/26", jenis: "Handphone", metode: "Qris", jumlah: "350.000" },
+      { no: 3, tanggal: "23/9/26", jenis: "TV", metode: "Transfer", jumlah: "720.000" },
+      { no: 4, tanggal: "9/4/26", jenis: "Laptop", metode: "Tunai", jumlah: "465.000" },
+      { no: 5, tanggal: "1/3/26", jenis: "AC", metode: "E-Wallet", jumlah: "550.000" }
+    ];
+
+    const tbodyTransaksi = document.getElementById("tbodyTransaksi");
+    dataTransaksi.forEach(function (item) {
+      tbodyTransaksi.innerHTML +=
+        "<tr>" +
+          "<td>" + item.no + "</td>" +
+          "<td>" + item.tanggal + "</td>" +
+          "<td>" + item.jenis + "</td>" +
+          "<td>" + item.metode + "</td>" +
+          "<td>" + item.jumlah + "</td>" +
+        "</tr>";
+    });
+
+    // Perhitungan statistik dari array dataTransaksi
+    function hitungStatistikTransaksi(list) {
+      let total = 0;
+      let maxVal = 0;
+      let minVal = 0;
+
+      for (let i = 0; i < list.length; i++) {
+        const nominal = Number(String(list[i].jumlah).replaceAll(".", ""));
+        total += nominal;
+
+        if (i === 0) {
+          maxVal = nominal;
+          minVal = nominal;
+        } else {
+          if (nominal > maxVal) maxVal = nominal;
+          if (nominal < minVal) minVal = nominal;
+        }
+      }
+
+      const rata = list.length > 0 ? total / list.length : 0;
+      return {
+        total: total,
+        rata: rata,
+        tertinggi: maxVal,
+        terendah: minVal
+      };
+    }
+
+    const filterPeriodeRingkasan = document.getElementById("filterPeriodeRingkasan");
+    const ringkasanKeuangan = document.getElementById("ringkasanKeuangan");
+
+    function renderRingkasanKeuangan(periode) {
+      const stats = hitungStatistikTransaksi(dataTransaksi);
+
+      let pendapatan = 0;
+      let pengeluaran = 0;
+      let rataTransaksi = stats.rata;
+
+      if (periode === "harian") {
+        pendapatan = stats.total;
+        pengeluaran = Math.round(stats.total * 0.28);
+        rataTransaksi = stats.rata;
+      } else if (periode === "tahunan") {
+        pendapatan = pendapatanBulanan * 12;
+        pengeluaran = pengeluaranBulanan * 12;
+        rataTransaksi = stats.rata * 12;
+      } else {
+        pendapatan = pendapatanBulanan;
+        pengeluaran = pengeluaranBulanan;
+        rataTransaksi = stats.rata;
+      }
+
+      const labaBersih = pendapatan - pengeluaran;
+
+      const items = [
+        { label: "Total Pendapatan", nilai: formatAngkaId(pendapatan) },
+        { label: "Total Pengeluaran", nilai: formatAngkaId(pengeluaran) },
+        { label: "Rata - Rata Transaksi", nilai: formatAngkaId(rataTransaksi) },
+        { label: "Laba Bersih", nilai: formatAngkaId(labaBersih) },
+        { label: "Transaksi Tertinggi", nilai: formatAngkaId(stats.tertinggi) },
+        { label: "Transaksi Terendah", nilai: formatAngkaId(stats.terendah) }
+      ];
+
+      ringkasanKeuangan.innerHTML = "";
+      items.forEach(function (row) {
+        ringkasanKeuangan.innerHTML +=
+          '<div class="summary-row">' +
+            '<span class="summary-label">' + row.label + '</span>' +
+            '<span class="summary-colon">:</span>' +
+            '<span class="summary-val">' + row.nilai + '</span>' +
+          '</div>';
+      });
+    }
+
+    renderRingkasanKeuangan(filterPeriodeRingkasan.value);
+
+    filterPeriodeRingkasan.addEventListener("change", function () {
+      renderRingkasanKeuangan(filterPeriodeRingkasan.value);
+    });
+
+    // Tombol download PDF & Excel
+    const btnPdf = document.getElementById("btnPdf");
+    const btnExcel = document.getElementById("btnExcel");
+    const infoUnduh = document.getElementById("infoUnduh");
+
+    btnPdf.addEventListener("click", function () {
+      infoUnduh.textContent = "Laporan keuangan format PDF siap diunduh.";
+    });
+
+    btnExcel.addEventListener("click", function () {
+      infoUnduh.textContent = "Laporan keuangan format Excel siap diunduh.";
+    });
+  </script>
+</body>
+</html>

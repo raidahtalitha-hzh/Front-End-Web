@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111827;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.top-navbar {
+    background-color: #03045e;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px 0 18px;
+    color: #ffffff;
+    border-bottom: 1px solid #1e3a8a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    width: 195px;
+}
+
+.navbar-search {
+    background-color: #ffffff;
+    border-radius: 6px;
+    height: 30px;
+    width: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    gap: 8px;
+}
+
+.navbar-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 12px;
+    color: #374151;
+    width: 110px;
+}
+
+.navbar-search input::placeholder {
+    color: #9ca3af;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.navbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar-role {
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.layout-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    width: 215px;
+    background-color: #03045e;
+    padding-top: 34px;
+    flex-shrink: 0;
+    border-right: 1px solid #3b82f6;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 4px 26px;
+    transition: opacity 0.15s ease;
+    display: block;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+/* KODE AKTIF UNTUK MENU SIDEBAR */
+.nav-link.active {
+    color: #60a5fa;
+    border-left: 4px solid #60a5fa;
+    padding-left: 22px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 22px 26px;
+    background-color: #ffffff;
+}
+
+.page-header {
+    margin-bottom: 16px;
+}
+
+.page-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 3px;
+}
+
+.page-header p {
+    font-size: 12.5px;
+    color: #4b5563;
+}
+
+.profile-banner {
+    border: 1px solid #60a5fa;
+    background-color: #ffffff;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 12px 12px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.banner-profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.banner-avatar {
+    width: 134px;
+    height: 134px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.banner-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 175px;
+}
+
+.pill-item {
+    background-color: #f3f4f6;
+    padding: 4px 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.banner-quote {
+    text-align: center;
+    color: #1d4ed8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 13px;
+    padding-right: 45px;
+    line-height: 1.45;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    padding: 18px 22px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.personal-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+}
+
+.field-box label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.gray-input {
+    background-color: #f3f4f6;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #374151;
+}
+
+.gray-input.address-box {
+    min-height: 68px;
+    line-height: 1.4;
+}
+
+.right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.card-header-flex .card-title {
+    margin-bottom: 0;
+}
+
+.btn-lihat-semua {
+    background-color: #e9d5ff;
+    color: #4c1d95;
+    border: 1px solid #9333ea;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.info-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #d1d5db;
+    font-size: 10.5px;
+    color: #1f2937;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-key {
+    width: 125px;
+}
+
+.info-key.wide-key {
+    width: 135px;
+}
+
+.badge-aktif {
+    background-color: #6ee7b7;
+    color: #065f46;
+    border: 1px solid #10b981;
+    border-radius: 4px;
+    padding: 1px 10px;
+    font-size: 9.5px;
+    font-weight: 700;
+}
+
+.app-footer {
+    height: 44px;
+    border-top: 1px solid #1e3a8a;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    font-size: 12.5px;
+    color: #374151;
+}
+
+/* =========================================
+   PROFILE TOP BANNER
+   ========================================= */
+.profile-banner {
+    border: 1px solid #60a5fa;
+    background-color: #ffffff;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 12px 12px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.banner-profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Kolom Avatar & Tombol Unduh */
+.banner-avatar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.banner-avatar-circle {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #0ea5e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+}
+
+.banner-avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-unduh {
+    background-color: #ea7878;
+    color: #111827;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 14px;
+    font-size: 10px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.banner-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 175px;
+}
+
+.pill-item {
+    background-color: #f3f4f6;
+    padding: 4px 10px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.banner-quote {
+    text-align: center;
+    color: #1d4ed8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 13px;
+    padding-right: 45px;
+    line-height: 1.45;
+}

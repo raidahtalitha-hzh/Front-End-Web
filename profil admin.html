@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Admin - Si Perbaiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Navbar / Topbar Rata Kiri */
+    .topbar {
+      width: 100%;
+      min-height: 60px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      min-width: 196px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .navbar-logo {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-icon {
+      font-size: 18px;
+      color: #60a5fa;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 420px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-box i {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: #0f172a;
+      background: transparent;
+    }
+
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Wrapper Utama */
+    .dashboard-wrapper {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Samping Seperti Gambar Kedua */
+    .sidebar {
+      width: 220px;
+      background-color: #000c66;
+      color: #ffffff;
+      padding: 20px 0;
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-item {
+      display: block;
+      padding: 13px 24px;
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(37, 99, 235, 0.45);
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .menu-empty-info {
+      display: none;
+      padding: 12px 24px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    /* Konten Utama */
+    .content-area {
+      flex: 1;
+      min-width: 0;
+      background-color: #ffffff;
+      padding: 22px 26px;
+    }
+
+    .page-header {
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-size: 23px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+
+    .page-header p {
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    /* Banner Profil Atas */
+    .profile-banner {
+      border: 1.5px solid #93c5fd;
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin-bottom: 20px;
+      background-color: #ffffff;
+      background-image: radial-gradient(#dbeafe 1.3px, transparent 1.3px);
+      background-size: 12px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .avatar-circle-wrap {
+      position: relative;
+      width: 118px;
+      height: 118px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #e2e8f0;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      font-size: 42px;
+    }
+
+    .avatar-circle-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      background-color: rgba(0, 12, 102, 0.78);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 600;
+      text-align: center;
+      padding: 3px 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .avatar-circle-wrap:hover .avatar-overlay {
+      opacity: 1;
+    }
+
+    .quick-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .quick-pill {
+      background-color: #f1f5f9;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      min-width: 195px;
+    }
+
+    .banner-quote {
+      margin-left: auto;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+      color: #1d4ed8;
+      font-size: 13.5px;
+      line-height: 1.45;
+      padding-right: 12px;
+    }
+
+    .banner-quote .quote-line {
+      font-size: 11px;
+      letter-spacing: 1px;
+      margin: 2px 0;
+    }
+
+    .banner-quote .quote-author {
+      font-size: 13px;
+    }
+
+    /* Grid Bawah: Kiri Informasi Pribadi, Kanan Informasi Akun & Aktivitas Terakhir */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .panel-box {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 14px;
+    }
+
+    .personal-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 16px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-field label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .form-control,
+    .form-textarea {
+      width: 100%;
+      background-color: #eff6ff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #334155;
+      outline: none;
+    }
+
+    .form-control:focus,
+    .form-textarea:focus {
+      border-color: #2563eb;
+      background-color: #ffffff;
+      color: #0f172a;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 62px;
+      line-height: 1.35;
+    }
+
+    .form-footer-row {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .status-save {
+      font-size: 12px;
+      font-weight: 600;
+      color: #15803d;
+    }
+
+    .btn-simpan-profil {
+      background-color: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-simpan-profil:hover {
+      background-color: #1e40af;
+    }
+
+    /* Informasi Akun */
+    .account-rows {
+      display: grid;
+      gap: 11px;
+      font-size: 12px;
+    }
+
+    .account-row {
+      display: grid;
+      grid-template-columns: 125px 14px 1fr;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .account-row:last-child {
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+
+    .status-badge-aktif {
+      display: inline-block;
+      width: fit-content;
+      background-color: #86efac;
+      color: #14532d;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 5px;
+    }
+
+    /* Aktivitas Terakhir */
+    .activity-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .activity-header .panel-title {
+      margin-bottom: 0;
+    }
+
+    .btn-lihat-semua {
+      background-color: #e9d5ff;
+      color: #1e293b;
+      border: 1px solid #d8b4fe;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .activity-list {
+      display: grid;
+      gap: 10px;
+      font-size: 11.5px;
+    }
+
+    .activity-row {
+      display: grid;
+      grid-template-columns: 135px 12px 1fr;
+      align-items: center;
+      padding-bottom: 9px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .activity-row:last-child {
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      padding: 12px 24px;
+      background-color: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+    }
+
+    /* Responsif */
+    @media (max-width: 1060px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .banner-quote {
+        margin-left: 0;
+        text-align: left;
+        padding-right: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        flex-wrap: wrap;
+        padding: 10px 16px;
+        gap: 10px;
+      }
+
+      .brand-box {
+        min-width: auto;
+      }
+
+      .search-box {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .dashboard-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-item {
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .content-area {
+        padding: 18px 16px;
+      }
+
+      .personal-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Rata Kiri -->
+  <header class="topbar">
+    <a href="menu utama.html" class="brand-box">
+      <img
+        src="logo.png"
+        alt="Logo Si Perbaiki"
+        class="navbar-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <i class="fa-solid fa-screwdriver-wrench brand-icon" style="display: none;"></i>
+      <span>Si Perbaiki</span>
+    </a>
+
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="menuSearchInput" placeholder="Cari menu (contoh: Menu, Nota, Keuangan, Profil)...">
+    </div>
+
+    <div class="topbar-right">
+      <i class="fa-solid fa-bell" title="Notifikasi"></i>
+      <div class="admin-profile">
+        <i class="fa-solid fa-circle-user"></i>
+        <span id="adminNameTop">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Samping + Konten Utama -->
+  <div class="dashboard-wrapper">
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="menu utama.html" class="nav-item">Menu Utama</a>
+      <a href="cetak nota.html" class="nav-item">Cetak Nota Terima</a>
+      <a href="laporan keuangan.html" class="nav-item">Laporan Keuangan</a>
+      <a href="laporan kinerja.html" class="nav-item">Laporan Kinerja</a>
+      <a href="kasir.html" class="nav-item">Kasir</a>
+      <a href="pengaturan.html" class="nav-item">Pengaturan</a>
+      <a href="profil admin.html" class="nav-item active">Profil Admin</a>
+      <div class="menu-empty-info" id="menuEmptyInfo">Menu tidak ditemukan.</div>
+    </aside>
+
+    <main class="content-area">
+      <div class="page-header">
+        <h1>Profil Admin</h1>
+        <p>Kelola informasi pribadi, keamanan akun, dan preferensi Anda.</p>
+      </div>
+
+      <!-- Banner Foto Profil & Kutipan -->
+      <section class="profile-banner">
+        <div class="banner-left">
+          <div class="avatar-circle-wrap" id="avatarCircleBtn" title="Klik untuk ganti foto profil">
+            <i class="fa-solid fa-user" id="bannerDefaultIcon"></i>
+            <img id="bannerPhotoImg" src="" alt="Foto Admin" style="display: none;">
+            <span class="avatar-overlay">Ganti Foto</span>
+          </div>
+          <input type="file" id="inputAvatarAdmin" accept="image/*" style="display: none;">
+
+          <div class="quick-info-list">
+            <div class="quick-pill" id="pillNama">Eleanor Pena</div>
+            <div class="quick-pill" id="pillEmail">eleanorpena@gmail.com</div>
+            <div class="quick-pill" id="pillTelp">087-555-0129</div>
+            <div class="quick-pill" id="pillKota">California</div>
+          </div>
+        </div>
+
+        <div class="banner-quote">
+          <div>&ldquo;Pelayanan terbaik berasal dari tim yang hebat.&rdquo;</div>
+          <div class="quote-line">----------</div>
+          <div class="quote-author">Admin</div>
+        </div>
+      </section>
+
+      <!-- Grid Bawah -->
+      <section class="profile-grid">
+        <!-- Informasi Pribadi -->
+        <div class="panel-box">
+          <h2 class="panel-title">Informasi Pribadi</h2>
+
+          <div class="personal-form-grid">
+            <div class="form-field">
+              <label for="inputNamaLengkap">Nama Lengkap</label>
+              <input type="text" id="inputNamaLengkap" class="form-control" value="Eleanor Pena">
+            </div>
+            <div class="form-field">
+              <label for="inputUsername">Username</label>
+              <input type="text" id="inputUsername" class="form-control" value="@eleanorpena">
+            </div>
+            <div class="form-field">
+              <label for="inputEmail">Email</label>
+              <input type="email" id="inputEmail" class="form-control" value="eleanorpena@gmail.com">
+            </div>
+            <div class="form-field">
+              <label for="inputTelepon">No. Telepon</label>
+              <input type="text" id="inputTelepon" class="form-control" value="087-555-0219">
+            </div>
+            <div class="form-field">
+              <label for="inputJabatan">Jabatan</label>
+              <input type="text" id="inputJabatan" class="form-control" value="Administrator">
+            </div>
+            <div class="form-field">
+              <label for="inputAlamat">Alamat</label>
+              <textarea id="inputAlamat" class="form-textarea">3891 Ranchview Dr. Richardson, California 62639</textarea>
+            </div>
+          </div>
+
+          <div class="form-footer-row">
+            <span class="status-save" id="statusSaveProfil"></span>
+            <button type="button" class="btn-simpan-profil" id="btnSimpanProfil">Simpan Perubahan</button>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan: Informasi Akun & Aktivitas Terakhir -->
+        <div class="right-col">
+          <div class="panel-box">
+            <h2 class="panel-title">Informasi Akun</h2>
+            <div class="account-rows">
+              <div class="account-row">
+                <span>Role</span>
+                <span>:</span>
+                <span>Administrator</span>
+              </div>
+              <div class="account-row">
+                <span>Tanggal Bergabung</span>
+                <span>:</span>
+                <span>06 July 2025</span>
+              </div>
+              <div class="account-row">
+                <span>Terakhir Login</span>
+                <span>:</span>
+                <span>22 November 2026</span>
+              </div>
+              <div class="account-row">
+                <span>Status</span>
+                <span>:</span>
+                <span class="status-badge-aktif">Aktif</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box">
+            <div class="activity-header">
+              <h2 class="panel-title">Aktivitas Terakhir</h2>
+              <button type="button" class="btn-lihat-semua" id="btnLihatSemuaAktivitas">Lihat Semua</button>
+            </div>
+            <div class="activity-list" id="activityList"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>&copy;Si Perbaiki. All Rights Reserved.</span>
+    <span>Admin Dashboard v1.0</span>
+  </footer>
+
+  <script>
+    const savedAdmin = localStorage.getItem("siPerbaikiAdmin");
+    if (savedAdmin && savedAdmin.trim() !== "") {
+      document.getElementById("adminNameTop").textContent = savedAdmin;
+      document.getElementById("inputNamaLengkap").value = savedAdmin;
+      document.getElementById("pillNama").textContent = savedAdmin;
+    }
+
+    // Pencarian menu di sidebar lewat kotak pencarian atas
+    const menuSearchInput = document.getElementById("menuSearchInput");
+    const navItems = document.querySelectorAll("#sidebarMenu .nav-item");
+    const menuEmptyInfo = document.getElementById("menuEmptyInfo");
+
+    menuSearchInput.addEventListener("input", function () {
+      const keyword = menuSearchInput.value.trim().toLowerCase();
+      let cocokCount = 0;
+
+      navItems.forEach(function (link) {
+        const namaMenu = link.textContent.toLowerCase();
+        if (namaMenu.includes(keyword)) {
+          link.style.display = "block";
+          cocokCount++;
+        } else {
+          link.style.display = "none";
+        }
+      });
+
+      menuEmptyInfo.style.display = cocokCount === 0 ? "block" : "none";
+    });
+
+    menuSearchInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        for (let i = 0; i < navItems.length; i++) {
+          if (navItems[i].style.display !== "none") {
+            window.location.href = navItems[i].getAttribute("href");
+            break;
+          }
+        }
+      }
+    });
+
+    // Foto profil pada banner atas
+    const avatarCircleBtn = document.getElementById("avatarCircleBtn");
+    const inputAvatarAdmin = document.getElementById("inputAvatarAdmin");
+    const bannerPhotoImg = document.getElementById("bannerPhotoImg");
+    const bannerDefaultIcon = document.getElementById("bannerDefaultIcon");
+
+    function tampilkanFotoBanner(src) {
+      if (!src) return;
+      bannerPhotoImg.src = src;
+      bannerPhotoImg.style.display = "block";
+      bannerDefaultIcon.style.display = "none";
+    }
+
+    const fotoTersimpan = localStorage.getItem("siPerbaikiFotoAdmin");
+    if (fotoTersimpan) {
+      tampilkanFotoBanner(fotoTersimpan);
+    }
+
+    avatarCircleBtn.addEventListener("click", function () {
+      inputAvatarAdmin.click();
+    });
+
+    inputAvatarAdmin.addEventListener("change", function () {
+      const file = inputAvatarAdmin.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        tampilkanFotoBanner(e.target.result);
+        localStorage.setItem("siPerbaikiFotoAdmin", e.target.result);
+        document.getElementById("statusSaveProfil").textContent = "Foto profil berhasil diperbarui.";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Simpan perubahan Informasi Pribadi
+    document.getElementById("btnSimpanProfil").addEventListener("click", function () {
+      const nama = document.getElementById("inputNamaLengkap").value.trim();
+      const email = document.getElementById("inputEmail").value.trim();
+      const telp = document.getElementById("inputTelepon").value.trim();
+      const alamat = document.getElementById("inputAlamat").value.trim();
+
+      if (nama !== "") {
+        localStorage.setItem("siPerbaikiAdmin", nama);
+        document.getElementById("adminNameTop").textContent = nama;
+        document.getElementById("pillNama").textContent = nama;
+      }
+      if (email !== "") {
+        document.getElementById("pillEmail").textContent = email;
+      }
+      if (telp !== "") {
+        document.getElementById("pillTelp").textContent = telp;
+      }
+      if (alamat !== "") {
+        const potonganAlamat = alamat.split(",");
+        document.getElementById("pillKota").textContent = potonganAlamat[potonganAlamat.length - 1].trim();
+      }
+
+      document.getElementById("statusSaveProfil").textContent = "Perubahan profil berhasil disimpan.";
+    });
+
+    // Daftar Aktivitas Terakhir & tombol Lihat Semua
+    const daftarAktivitas = [
+      { label: "Login ke Sistem", waktu: "22 November 2026 (08:00 WIB)" },
+      { label: "Mengubah Data Teknisi", waktu: "20 November 2026 (16:40 WIB)" },
+      { label: "Mencetak Nota", waktu: "23 November 2026 (10:00 WIB)" },
+      { label: "Memproses Pembayaran Kasir", waktu: "24 November 2026 (13:15 WIB)" },
+      { label: "Memperbarui Laporan Keuangan", waktu: "25 November 2026 (15:20 WIB)" }
+    ];
+
+    const activityList = document.getElementById("activityList");
+    const btnLihatSemuaAktivitas = document.getElementById("btnLihatSemuaAktivitas");
+    let tampilSemuaAktivitas = false;
+
+    function renderAktivitas() {
+      activityList.innerHTML = "";
+      const items = tampilSemuaAktivitas ? daftarAktivitas : daftarAktivitas.slice(0, 3);
+      items.forEach(function (act) {
+        activityList.innerHTML +=
+          '<div class="activity-row">' +
+            '<span>' + act.label + '</span>' +
+            '<span>:</span>' +
+            '<span>' + act.waktu + '</span>' +
+          '</div>';
+      });
+      btnLihatSemuaAktivitas.textContent = tampilSemuaAktivitas ? "Ringkas" : "Lihat Semua";
+    }
+
+    btnLihatSemuaAktivitas.addEventListener("click", function () {
+      tampilSemuaAktivitas = !tampilSemuaAktivitas;
+      renderAktivitas();
+    });
+
+    renderAktivitas();
+  </script>
+</body>
+</html>

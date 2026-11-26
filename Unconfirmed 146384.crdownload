@@ -1,0 +1,496 @@
+/**
+ * Si Perbaiki - tema.js (preferensi tampilan global)
+ *
+ * Dipasang di SEMUA halaman (laporan-kinerja, kasir, pengaturan, profil-admin),
+ * di dalam <head>, sebelum script lain:
+ *   <script src="tema.js"></script>
+ *
+ * Isi:
+ *  1. Tema Terang/Gelap  -> berlaku di semua halaman
+ *  2. Ukuran Font         -> Kecil / Sedang / Besar, berlaku di semua halaman
+ *  3. Bahasa              -> Indonesia / English (kamus terjemahan di bawah)
+ *  4. Animasi tombol      -> efek tekan, ripple, dan pop saat diklik
+ *
+ * API untuk halaman lain: window.SiPerbaiki
+ *   .prefs  .setTheme('light'|'dark')  .setFontSize('small'|'medium'|'large')
+ *   .setLanguage('id'|'en')  .t('teks Indonesia')
+ */
+(function () {
+    'use strict';
+
+    const STORAGE_KEY = 'siperbaiki_pengaturan';
+    const DEFAULTS = { theme: 'light', fontSize: 'medium', language: 'id' };
+    const SCALES = { small: 0.875, medium: 1, large: 1.15 };
+
+    // ===== PENYIMPANAN (digabung dengan data toggle milik pengaturan.js) =====
+    const readStore = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } };
+    const writeStore = (patch) => {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...readStore(), ...patch })); } catch { /* abaikan */ }
+    };
+    function sanitize(src) {
+        return {
+            theme: src.theme === 'dark' ? 'dark' : 'light',
+            fontSize: src.fontSize in SCALES ? src.fontSize : DEFAULTS.fontSize,
+            language: src.language === 'en' ? 'en' : 'id',
+        };
+    }
+    const prefs = sanitize({ ...DEFAULTS, ...readStore() });
+
+    // ===== STYLE GLOBAL (tema gelap + animasi tombol) =====
+    const style = document.createElement('style');
+    style.textContent = `
+        /* ===== Tema gelap elegan (navy-slate + aksen cyan) =====
+           Ubah warna cukup lewat variabel di bawah ini. */
+        html.dark-theme{
+            --bg:#0f1623;--surface:#161e2e;--surface-2:#1d2739;--border:#263247;
+            --text:#e2e8f0;--text-strong:#f8fafc;--muted:#94a3b8;
+            --accent:#22b8cf;--accent-strong:#0e7490;--accent-soft:rgba(34,184,207,.14);
+        }
+        html.theme-anim,html.theme-anim *{transition:background-color .35s ease,color .35s ease,
+            border-color .35s ease,box-shadow .35s ease!important}
+
+        /* Dasar: HANYA area konten (.main-content). Navbar atas, sidebar, dan footer tidak diubah. */
+        html.dark-theme .main-content{background:var(--bg)!important;color:var(--text)!important;color-scheme:dark}
+        html.dark-theme .main-content :where(h1,h2,h3,h4,h5,h6,p,span,label,div,li,td,th,a,small,strong,em,u){color:var(--text)!important}
+        html.dark-theme .main-content :is(h1,h2,.card-title,.kpi-value){color:var(--text-strong)!important}
+        html.dark-theme .main-content :is(.page-header p,.card-subtitle,.kpi-label,.field-item label,.field-box label,
+            .info-key,.row-key,.y-axis span,.x-axis span){color:var(--muted)!important}
+        html.dark-theme .main-content input::placeholder{color:var(--muted)!important}
+
+        /* Kartu & kolom isian */
+        html.dark-theme :is(.card,.kpi-card){background:var(--surface)!important;border-color:var(--border)!important;
+            box-shadow:0 0 0 1px var(--border),0 6px 18px rgba(0,0,0,.25)!important}
+        html.dark-theme :is(.gray-box,.gray-input,.bordered-input,.bordered-select,.pill-item){
+            background:var(--surface-2)!important;border-color:var(--border)!important;color:var(--text)!important}
+        html.dark-theme select option{background:var(--surface-2);color:var(--text)}
+        html.dark-theme :is(.list-row,.info-row){border-color:var(--border)!important}
+        html.dark-theme .profile-banner{background:linear-gradient(135deg,var(--surface),var(--surface-2))!important;
+            border-color:var(--border)!important;box-shadow:0 0 0 1px var(--border)!important}
+        html.dark-theme .banner-quote,html.dark-theme .banner-quote p{color:var(--muted)!important}
+
+        /* Tabel, pagination, grafik, KPI */
+        html.dark-theme .data-table th{background:var(--surface-2)!important;color:var(--muted)!important;border-color:var(--border)!important}
+        html.dark-theme .data-table td{background:transparent!important;border-color:var(--border)!important}
+        html.dark-theme .data-table tbody tr:hover td{background:rgba(255,255,255,.03)!important}
+        html.dark-theme .page-btn{background:var(--surface-2)!important;color:var(--text)!important;border-color:var(--border)!important}
+        html.dark-theme .page-btn.active{background:var(--accent-strong)!important;color:#fff!important;border-color:var(--accent-strong)!important}
+        html.dark-theme .page-btn:disabled{opacity:.4}
+        html.dark-theme .avatar{background:var(--accent-soft)!important;color:var(--accent)!important}
+        html.dark-theme .kpi-icon{background:var(--accent-soft)!important;color:var(--accent)!important}
+        html.dark-theme .kpi-icon .iconify{color:var(--accent)!important}
+        html.dark-theme .grid-line{border-color:var(--border)!important;background-color:var(--border)!important}
+
+        /* Tombol, badge, toggle, kotak tema */
+        html.dark-theme .btn-unduh{background:var(--accent-strong)!important;color:#fff!important;border-color:transparent!important}
+        html.dark-theme .btn-unduh .iconify{color:#fff!important}
+        html.dark-theme .btn-cyan-outline{background:transparent!important;color:var(--accent)!important;border-color:var(--accent)!important}
+        html.dark-theme .btn-cyan-outline:hover{background:var(--accent-soft)!important}
+        html.dark-theme .btn-lihat-semua{background:var(--accent-soft)!important;color:var(--accent)!important;border-color:transparent!important}
+        html.dark-theme .badge-aktif{background:rgba(74,222,128,.14)!important;color:#4ade80!important}
+        html.dark-theme .toggle-slider{background:#334155!important;border-color:transparent!important}
+        html.dark-theme .si-knob{background:#f8fafc!important}
+        html.dark-theme .toggle-switch input:checked+.toggle-slider{background:var(--accent-strong)!important}
+        html.dark-theme .theme-box{background:var(--surface-2)!important;border-color:var(--border)!important;color:var(--muted)!important}
+        html.dark-theme .theme-box span{color:inherit!important}
+        html.dark-theme .theme-box.active{border-color:var(--accent)!important;background:var(--accent-soft)!important;color:var(--accent)!important}
+        html.dark-theme button:not(:disabled):hover,html.dark-theme .theme-box:hover{box-shadow:0 3px 12px rgba(0,0,0,.4)}
+
+        /* Modal & toast (pengaturan.js / profil-admin.js) */
+        html.dark-theme :is(.sp-modal,.pa-modal){background:var(--surface)!important;color:var(--text)!important;
+            box-shadow:0 0 0 1px var(--border),0 20px 50px rgba(0,0,0,.55)!important}
+        html.dark-theme .sp-modal p{color:var(--muted)!important}
+        html.dark-theme :is(.sp-modal input,.pa-modal input,.pa-edit-input){background:var(--surface-2)!important;
+            color:var(--text)!important;border-color:var(--border)!important}
+        html.dark-theme :is(.sp-actions button:not(.sp-primary),.pa-close){background:var(--surface-2)!important;
+            color:var(--text)!important;border-color:var(--border)!important}
+        html.dark-theme .sp-actions .sp-primary,html.dark-theme .pa-btn.primary{background:var(--accent-strong)!important;color:#fff!important;border-color:transparent!important}
+        html.dark-theme .pa-btn:not(.primary){background:transparent!important;color:var(--accent)!important;border-color:var(--accent)!important}
+        html.dark-theme :is(.sp-error,.pa-field-error){color:#f87171!important}
+        html.dark-theme .pa-log li{border-color:var(--border)!important}
+        html.dark-theme .sp-toast,html.dark-theme .pa-toast{background:var(--surface-2)!important;color:var(--text)!important;box-shadow:0 0 0 1px var(--border),0 8px 24px rgba(0,0,0,.45)!important}
+        html.dark-theme :is(.sp-toast.error,.pa-toast.error){background:#7f1d1d!important}
+
+        /* Gambar & scrollbar */
+        html.dark-theme .main-content img{filter:brightness(.92)}
+        html.dark-theme .custom-logo-img img{border-radius:10px}
+        html.dark-theme ::-webkit-scrollbar{width:10px;height:10px}
+        html.dark-theme ::-webkit-scrollbar-track{background:transparent}
+        html.dark-theme ::-webkit-scrollbar-thumb{background:#334155;border-radius:8px}
+
+        /* --- Animasi tombol --- */
+        button,.theme-box{position:relative;overflow:hidden;
+            transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,
+                       color .2s ease,border-color .2s ease,opacity .2s ease}
+        button:not(:disabled),.theme-box{cursor:pointer}
+        button:not(:disabled):hover,.theme-box:hover{box-shadow:0 3px 10px rgba(8,145,178,.25)}
+        button:not(:disabled):active,.theme-box:active{transform:scale(.94)}
+        .si-ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.28;
+            transform:scale(0);animation:si-ripple .55s ease-out;pointer-events:none}
+        @keyframes si-ripple{to{transform:scale(1);opacity:0}}
+        .si-pop{animation:si-pop .32s ease}
+        @keyframes si-pop{0%{transform:scale(.9)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+        /* Toggle: lingkaran (knob) bergeser halus ke kiri/kanan.
+           Knob bawaan CSS (pseudo-element) dinonaktifkan dan diganti elemen .si-knob buatan tema.js */
+        .toggle-slider{transition:background-color .3s ease,border-color .3s ease}
+        .toggle-slider::before,.toggle-slider::after{content:none!important;display:none!important}
+        .si-knob{position:absolute;top:4px;bottom:4px;left:4px;aspect-ratio:1/1;border-radius:50%;
+            background:#38bdf8;box-shadow:0 1px 4px rgba(0,0,0,.25);pointer-events:none;
+            transition:left .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1),
+                       background-color .3s ease}
+        .toggle-switch input:checked + .toggle-slider .si-knob{left:calc(100% - 4px);transform:translateX(-100%)}
+        .toggle-switch:active .si-knob{filter:brightness(.92)}
+
+        /* Kotak tema yang aktif */
+        .theme-box{border:2px solid transparent}
+        .theme-box.active{border-color:#0891b2;background-color:rgba(8,145,178,.12);color:#0891b2}
+    `;
+    document.head.appendChild(style);
+
+    // ===== 1. TEMA =====
+    function applyTheme(animate) {
+        const root = document.documentElement;
+        if (animate) { // transisi warna halus hanya saat pengguna mengganti tema
+            root.classList.add('theme-anim');
+            setTimeout(() => root.classList.remove('theme-anim'), 450);
+        }
+        root.classList.toggle('dark-theme', prefs.theme === 'dark');
+    }
+    applyTheme(); // langsung, sebelum halaman tampil (mencegah kedip)
+
+    // ===== KAMUS TERJEMAHAN (Indonesia -> English) =====
+    // Teks yang tidak ada di kamus tetap tampil dalam Bahasa Indonesia.
+    // Tambahkan baris baru di sini untuk halaman Kasir atau teks lainnya.
+    const DICT = new Map(Object.entries({
+        // Umum & navigasi
+        'Menu Utama': 'Main Menu', 'Cetak Nota Terima': 'Print Receipt', 'Laporan Keuangan': 'Financial Report',
+        'Laporan Kinerja': 'Performance Report', 'Kasir': 'Cashier', 'Pengaturan': 'Settings', 'Profil Admin': 'Admin Profile',
+        'Cari sesuatu...': 'Search something...', 'Unduh': 'Download', 'Batal': 'Cancel', 'Simpan': 'Save', 'Tutup': 'Close',
+        'Si Perbaiki - Laporan Kinerja': 'Si Perbaiki - Performance Report',
+        'Si Perbaiki - Pengaturan': 'Si Perbaiki - Settings',
+        'Si Perbaiki - Profil Admin': 'Si Perbaiki - Admin Profile',
+        'Si Perbaiki - Kasir': 'Si Perbaiki - Cashier',
+        'diaktifkan': 'enabled', 'dinonaktifkan': 'disabled',
+
+        // Laporan Kinerja
+        'Pantau pekerjaan teknisi dan kualitas layanan secara real time': 'Monitor technician work and service quality in real time',
+        'Total Teknisi': 'Total Technicians', 'Servis Selesai': 'Completed Services', 'Rata - Rata': 'Average',
+        '1,8 hari': '1.8 days', 'Tingkat Kepuasan': 'Satisfaction Rate', '4,8/5': '4.8/5',
+        'Detail Kinerja Teknisi': 'Technician Performance Details', 'Teknisi': 'Technician', 'Selesai': 'Completed',
+        'Proses': 'In Progress', 'Tertunda': 'Delayed',
+        'Performa Kategori Servis': 'Service Category Performance',
+        'Jenis servis yanng ditangani oleh teknisi.': 'Types of services handled by technicians.',
+        'Jenis servis yang ditangani oleh teknisi.': 'Types of services handled by technicians.',
+        'Ganti SparePart': 'Spare Part Replacement', 'Perbaikan': 'Repair', 'Pembersihan /': 'Cleaning /', 'Pengecekan': 'Inspection',
+        'Catatan': 'Notes',
+        'Kinerja teknisi dinilai berdasarkan jumlah seervis yang diselesaikan, waktu penyelesaian, dan tingkat kepuasan pelanggan.':
+            'Technician performance is assessed by the number of services completed, completion time, and customer satisfaction.',
+        'Kinerja teknisi dinilai berdasarkan jumlah servis yang diselesaikan, waktu penyelesaian, dan tingkat kepuasan pelanggan.':
+            'Technician performance is assessed by the number of services completed, completion time, and customer satisfaction.',
+        'Data diperbarui secara': 'Data is updated in',
+        'Gunakan filter tanggal untuk melihat pada laporan pada periode teertentu.': 'Use the date filter to view reports for a specific period.',
+        'Gunakan filter tanggal untuk melihat laporan pada periode tertentu.': 'Use the date filter to view reports for a specific period.',
+        'Data teknisi tidak ditemukan.': 'No technician data found.', 'Klik untuk mengurutkan': 'Click to sort',
+
+        // Pengaturan
+        'Kelola pengaturan sistem, akun, dan prefensi aplikasi.': 'Manage system settings, account, and app preferences.',
+        'Kelola pengaturan sistem, akun, dan preferensi aplikasi.': 'Manage system settings, account, and app preferences.',
+        'Profil Perusahaan': 'Company Profile', 'Logo Perusahaan': 'Company Logo', 'Nama Perusahaan': 'Company Name',
+        'Alamat': 'Address', 'No. Telepon': 'Phone Number',
+        'Zona Waktu dan Tanggal': 'Time Zone and Date', 'Zona Waktu': 'Time Zone', 'Format Tanggal': 'Date Format',
+        'Format Waktu': 'Time Format', '24 Jam': '24 Hours',
+        'Akun Administrator': 'Administrator Account', 'Nama Lengkap': 'Full Name',
+        'Notifikasi Sistem': 'System Notifications', 'Notifikasi Laporan Harian': 'Daily Report Notifications',
+        'Notifikasi Melalui E-mail': 'Email Notifications', 'Notifikasi Pembayaran Masuk': 'Incoming Payment Notifications',
+        'Keamanan': 'Security', 'Ubah Password': 'Change Password', 'Verifikasi Dua Langkah': 'Two-Step Verification',
+        'Logout dari Semua Perangkat': 'Log Out from All Devices', 'Logout Semua': 'Log Out All',
+        'Pengaturan Tampilan': 'Display Settings', 'Terang': 'Light', 'Gelap': 'Dark', 'Bahasa': 'Language',
+        'Ukuran Font': 'Font Size', 'Kecil': 'Small', 'Sedang (Default)': 'Medium (Default)', 'Besar': 'Large',
+        'Notifikasi laporan harian': 'Daily report notifications', 'Notifikasi e-mail': 'Email notifications',
+        'Notifikasi pembayaran masuk': 'Incoming payment notifications', 'Verifikasi dua langkah': 'Two-step verification',
+        'Tema terang diterapkan.': 'Light theme applied.', 'Tema gelap diterapkan.': 'Dark theme applied.',
+        'Ukuran font diperbarui.': 'Font size updated.', 'Preferensi bahasa disimpan.': 'Language preference saved.',
+        'Logo berhasil diunduh.': 'Logo downloaded successfully.', 'Foto berhasil diunduh.': 'Photo downloaded successfully.',
+        'Gambar dibuka di tab baru.': 'Image opened in a new tab.',
+        'Gunakan password minimal 8 karakter dengan kombinasi huruf dan angka.': 'Use a password of at least 8 characters with letters and numbers.',
+        'Password Saat Ini': 'Current Password', 'Password Baru': 'New Password', 'Konfirmasi Password Baru': 'Confirm New Password',
+        'Semua kolom wajib diisi.': 'All fields are required.', 'Password baru minimal 8 karakter.': 'New password must be at least 8 characters.',
+        'Password harus mengandung huruf dan angka.': 'Password must contain letters and numbers.',
+        'Password baru tidak boleh sama dengan password lama.': 'New password must differ from the old one.',
+        'Konfirmasi password tidak cocok.': 'Password confirmation does not match.',
+        'Password berhasil diubah.': 'Password changed successfully.',
+        'Anda akan keluar dari semua perangkat yang sedang login, termasuk perangkat ini.': 'You will be signed out of all logged-in devices, including this one.',
+        'Ya, Logout Semua': 'Yes, Log Out All', 'Berhasil logout dari semua perangkat.': 'Logged out from all devices.',
+
+        // Profil Admin
+        'Kelola informasi pribadi, keamanan akun, dan prefensi Anda.': 'Manage your personal information, account security, and preferences.',
+        'Kelola informasi pribadi, keamanan akun, dan preferensi Anda.': 'Manage your personal information, account security, and preferences.',
+        '“Pelayanan terbaik berasal dari tim yang hebat.”': '“The best service comes from a great team.”',
+        'Informasi Pribadi': 'Personal Information', 'Jabatan': 'Position', 'Informasi Akun': 'Account Information',
+        'Tanggal Bergabung': 'Join Date', 'Terakhir Login': 'Last Login', 'Aktif': 'Active',
+        'Aktivitas Terakhir': 'Recent Activity', 'Lihat Semua >': 'View All >',
+        'Login ke Sistem': 'Logged In to the System', 'Mengubah Data Teknisi': 'Edited Technician Data',
+        'Mencetak Nota': 'Printed a Receipt', 'Edit Profil': 'Edit Profile', 'Semua Aktivitas': 'All Activities',
+        'Belum ada aktivitas.': 'No activity yet.', 'Mengubah Profil Admin': 'Edited Admin Profile',
+        'Mengganti Foto Profil': 'Changed Profile Photo', 'Klik untuk mengganti foto': 'Click to change photo',
+        'Tidak ada perubahan.': 'No changes.', 'Perubahan dibatalkan.': 'Changes cancelled.',
+        'Foto profil diperbarui.': 'Profile photo updated.', 'Foto profil berhasil diunduh.': 'Profile photo downloaded successfully.',
+        'Periksa kembali data yang diisi.': 'Please check the data you entered.',
+
+        // Kasir
+        'Layanan Populer': 'Popular Services', 'Sparepart Populer': 'Popular Spare Parts',
+        '+ Tambah': '+ Add', 'Tambah': 'Add',
+        'Cek kerusakan Laptop': 'Laptop Damage Check', 'Ganti LCD Laptop': 'Laptop LCD Replacement',
+        'Cek kerusakan HP': 'Phone Damage Check', 'Ganti LCD HP': 'Phone LCD Replacement',
+        'Cek kerusakan TV': 'TV Damage Check', 'Cuci AC': 'AC Cleaning',
+        'Install OS Laptop': 'Laptop OS Installation', 'Ganti baterai HP': 'Phone Battery Replacement',
+        'Baterai Laptop': 'Laptop Battery', 'LCD Laptop': 'Laptop LCD', 'Charger Laptop': 'Laptop Charger',
+        'Baterai HP': 'Phone Battery', 'LCD HP': 'Phone LCD', 'Keyboard Laptop': 'Laptop Keyboard',
+        'Kipas Laptop': 'Laptop Fan', 'Kabel Fleksibel': 'Flex Cable',
+        'Keranjang': 'Cart', 'Layanan': 'Service', 'Harga': 'Price', 'Jumlah': 'Quantity', 'Aksi': 'Action',
+        'Data Pelanggan': 'Customer Data', 'Nama Pelanggan': 'Customer Name', 'Pelanggan': 'Customer',
+        'Metode Pembayaran': 'Payment Method', 'Tunai': 'Cash', 'Diskon': 'Discount',
+        'Proses Pembayaran': 'Process Payment',
+    }));
+    const MONTHS_EN = { Januari: 'January', Februari: 'February', Maret: 'March', Mei: 'May', Juni: 'June', Juli: 'July', Agustus: 'August', Oktober: 'October', Desember: 'December' };
+    const MONTH_RE = /\b(Januari|Februari|Maret|Mei|Juni|Juli|Agustus|Oktober|Desember)\b/g;
+
+    // Terjemahkan satu string (menjaga spasi, awalan ": " dan panah sorting)
+    function tr(raw) {
+        const m = raw.match(/^(\s*)([\s\S]*?)(\s*)$/);
+        let core = m[2];
+        if (!core) return raw;
+        let prefix = '', suffix = '';
+        const pm = core.match(/^:\s+/);
+        if (pm) { prefix = pm[0]; core = core.slice(pm[0].length); }
+        const sm = core.match(/\s*[▲▼]$/);
+        if (sm) { suffix = sm[0]; core = core.slice(0, -sm[0].length); }
+        const key = core.replace(/\s+/g, ' ');
+        let out = DICT.get(key);
+        if (out === undefined) {
+            const withMonth = key.replace(MONTH_RE, (x) => MONTHS_EN[x]);
+            if (withMonth !== key) out = withMonth;
+        }
+        return out === undefined ? raw : m[1] + prefix + out + suffix + m[3];
+    }
+
+    // ===== 3. BAHASA =====
+    const textInfo = new WeakMap(); // textNode -> { orig, shown }
+    const ATTRS = ['placeholder', 'title', 'alt'];
+    let titleOrig = null;
+
+    function localizeText(node) {
+        const info = textInfo.get(node);
+        if (prefs.language === 'en') {
+            const raw = info && node.nodeValue === info.shown ? info.orig : node.nodeValue;
+            const out = tr(raw);
+            if (out !== raw) { textInfo.set(node, { orig: raw, shown: out }); node.nodeValue = out; }
+            else if (info) textInfo.delete(node);
+        } else if (info && node.nodeValue === info.shown) {
+            node.nodeValue = info.orig;
+            textInfo.delete(node);
+        }
+    }
+
+    function localizeAttrs(el) {
+        ATTRS.forEach((a) => {
+            if (!el.hasAttribute(a)) return;
+            const k = 'i18n' + a[0].toUpperCase() + a.slice(1);
+            const cur = el.getAttribute(a);
+            const orig = el.dataset[k];
+            if (prefs.language === 'en') {
+                const base = orig !== undefined && cur === tr(orig) ? orig : cur;
+                const out = tr(base);
+                if (out !== base) { el.dataset[k] = base; el.setAttribute(a, out); }
+                else if (orig !== undefined) delete el.dataset[k];
+            } else if (orig !== undefined) {
+                if (cur === tr(orig)) el.setAttribute(a, orig);
+                delete el.dataset[k];
+            }
+        });
+    }
+
+    function localizeSubtree(root) {
+        if (root.nodeType === 3) { localizeText(root); return; }
+        if (root.nodeType !== 1) return;
+        if (/^(SCRIPT|STYLE)$/.test(root.tagName)) return;
+        localizeAttrs(root);
+        root.querySelectorAll('[placeholder],[title],[alt]').forEach(localizeAttrs);
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+            acceptNode: (n) => (n.parentElement && /^(SCRIPT|STYLE)$/.test(n.parentElement.tagName)
+                ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(localizeText);
+    }
+
+    function applyLanguage() {
+        quiet(() => {
+            document.documentElement.lang = prefs.language;
+            if (titleOrig === null) titleOrig = document.title;
+            document.title = prefs.language === 'en' ? tr(titleOrig) : titleOrig;
+            localizeSubtree(document.body);
+        });
+    }
+
+    // ===== 2. UKURAN FONT =====
+    // CSS memakai ukuran px tetap, jadi font tiap elemen dikalikan skala (bukan sekadar mengubah <body>).
+    const fontInfo = new WeakMap(); // element -> { base, inline }
+    let scale = 1;
+    const SKIP_TAG = /^(SCRIPT|STYLE|LINK|META|TITLE|HEAD|NOSCRIPT)$/;
+
+    function fontTargets(root) {
+        const list = [];
+        if (root.nodeType === 1) list.push(root);
+        if (root.querySelectorAll) root.querySelectorAll('*').forEach((e) => list.push(e));
+        return list.filter((e) => !SKIP_TAG.test(e.tagName) && !(e instanceof SVGElement));
+    }
+
+    function measure(el) {
+        const size = parseFloat(getComputedStyle(el).fontSize);
+        const parent = el.parentElement;
+        const pInfo = parent && fontInfo.get(parent);
+        // Jika ukuran sama dengan induknya, berarti diwarisi -> pakai ukuran dasar induk
+        if (pInfo && Math.abs(size - parseFloat(getComputedStyle(parent).fontSize)) < 0.01) return pInfo.base;
+        return size;
+    }
+
+    function applyFontTo(root) {
+        const els = fontTargets(root);
+        if (scale === 1) {
+            els.forEach((el) => { const i = fontInfo.get(el); if (i) el.style.fontSize = i.inline; });
+            return;
+        }
+        els.forEach((el) => { if (!fontInfo.has(el)) fontInfo.set(el, { base: measure(el), inline: el.style.fontSize }); });
+        els.forEach((el) => { el.style.fontSize = (fontInfo.get(el).base * scale).toFixed(2) + 'px'; });
+    }
+
+    function applyFont() {
+        scale = SCALES[prefs.fontSize] || 1;
+        quiet(() => applyFontTo(document.body));
+    }
+
+    // ===== PENGAMAT DOM (teks & elemen yang dibuat belakangan oleh script halaman) =====
+    let observer = null;
+    const OBS_OPTS = { childList: true, subtree: true, characterData: true };
+    function quiet(fn) {
+        if (observer) observer.disconnect();
+        try { fn(); } finally { if (observer && document.body) observer.observe(document.body, OBS_OPTS); }
+    }
+    function onMutations(records) {
+        quiet(() => {
+            records.forEach((r) => {
+                if (r.type === 'characterData') { localizeText(r.target); return; }
+                r.addedNodes.forEach((n) => {
+                    if (n.nodeType === 1) setupToggles(n);
+                    localizeSubtree(n);
+                    if (scale !== 1 && n.nodeType === 1) applyFontTo(n);
+                });
+            });
+        });
+    }
+
+    // ===== 4. ANIMASI TOMBOL =====
+    document.addEventListener('pointerdown', (e) => {
+        const el = e.target.closest && e.target.closest('button, .theme-box');
+        if (!el || el.disabled) return;
+        const rect = el.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height) * 2;
+        const ripple = document.createElement('span');
+        ripple.className = 'si-ripple';
+        ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - rect.left - size / 2}px;top:${e.clientY - rect.top - size / 2}px`;
+        el.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+    });
+    document.addEventListener('click', (e) => {
+        const box = e.target.closest && e.target.closest('.theme-box');
+        if (box) popElement(box);
+    });
+    document.addEventListener('change', (e) => {
+        if (e.target.matches && e.target.matches('.toggle-switch input')) popElement(e.target.closest('.toggle-switch'));
+    });
+    function popElement(el) {
+        if (!el) return;
+        el.classList.remove('si-pop');
+        void el.offsetWidth; // restart animasi
+        el.classList.add('si-pop');
+        el.addEventListener('animationend', () => el.classList.remove('si-pop'), { once: true });
+    }
+
+    // Sisipkan knob ke setiap toggle agar bisa dianimasikan
+    function setupToggles(root) {
+        (root || document).querySelectorAll('.toggle-switch .toggle-slider').forEach((slider) => {
+            if (slider.querySelector('.si-knob')) return;
+            if (getComputedStyle(slider).position === 'static') slider.style.position = 'relative';
+            const knob = document.createElement('i');
+            knob.className = 'si-knob';
+            slider.appendChild(knob);
+        });
+    }
+
+    // ===== INISIALISASI =====
+    function init() {
+        observer = new MutationObserver(onMutations);
+        setupToggles();
+        // Ditunda agar script halaman (yang membaca isi DOM) selesai lebih dulu
+        setTimeout(() => { applyLanguage(); applyFont(); }, 0);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+
+    // Sinkron antar tab/halaman
+    window.addEventListener('storage', (e) => {
+        if (e.key !== STORAGE_KEY) return;
+        Object.assign(prefs, sanitize({ ...DEFAULTS, ...readStore() }));
+        applyTheme(); applyLanguage(); applyFont();
+    });
+
+    // ===== API PUBLIK =====
+    window.SiPerbaiki = {
+        get prefs() { return { ...prefs }; },
+        t: (text) => (prefs.language === 'en' ? tr(text) : text),
+        setTheme(theme) {
+            prefs.theme = theme === 'dark' ? 'dark' : 'light';
+            writeStore({ theme: prefs.theme });
+            applyTheme(true);
+        },
+        setFontSize(key) {
+            if (!(key in SCALES)) return;
+            prefs.fontSize = key;
+            writeStore({ fontSize: key });
+            applyFont();
+        },
+        setLanguage(lang) {
+            prefs.language = lang === 'en' ? 'en' : 'id';
+            writeStore({ language: prefs.language });
+            applyLanguage();
+        },
+        // Alat bantu: daftar teks di halaman ini yang belum ada di kamus.
+        // Buka Console browser (F12), ketik: SiPerbaiki.missing()
+        missing() {
+            const found = new Set();
+            const add = (text) => {
+                const clean = text.replace(/\s+/g, ' ').trim();
+                if (/[A-Za-z]{2,}/.test(clean) && tr(clean) === clean) found.add(clean);
+            };
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+                const n = walker.currentNode;
+                if (/^(SCRIPT|STYLE)$/.test(n.parentElement?.tagName || '')) continue;
+                const info = textInfo.get(n);
+                add(info ? info.orig : n.nodeValue);
+            }
+            document.querySelectorAll('[placeholder],[title],[alt]').forEach((el) => {
+                ATTRS.forEach((a) => {
+                    const k = 'i18n' + a[0].toUpperCase() + a.slice(1);
+                    const v = el.dataset[k] !== undefined ? el.dataset[k] : el.getAttribute(a);
+                    if (v) add(v);
+                });
+            });
+            const list = [...found];
+            console.log(`Teks belum ada di kamus (${list.length}):\n` + list.map((s) => `'${s.replace(/'/g, "\\'")}': '',`).join('\n'));
+            return list;
+        },
+    };
+})();

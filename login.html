@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Si Perbaiki</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #dbeafe 100%);
+      color: #0f172a;
+    }
+
+    /* Header / Topbar */
+    .topbar {
+      width: 100%;
+      height: 60px;
+      background-color: #ffffff;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin-right: auto;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-align: left;
+    }
+
+    .navbar-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .fallback-icon {
+      font-size: 20px;
+      color: #1d4ed8;
+      flex-shrink: 0;
+    }
+
+    /* Area Utama Login */
+    .login-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-top {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-circle {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 14px auto;
+      border-radius: 16px;
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(29, 78, 216, 0.12);
+    }
+
+    .card-logo {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+    }
+
+    .logo-circle .fallback-icon {
+      font-size: 26px;
+    }
+
+    .card-top h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #000c66;
+    }
+
+    /* Form Input */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #64748b;
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 46px;
+      padding: 0 42px 0 40px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      font-size: 14px;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      background-color: #ffffff;
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      padding: 6px;
+      font-size: 15px;
+      border-radius: 6px;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .toggle-password:hover {
+      color: #1d4ed8;
+      background-color: #eff6ff;
+    }
+
+    .error-msg {
+      display: none;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .error-msg.show {
+      display: block;
+    }
+
+    .btn-login {
+      width: 100%;
+      height: 46px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1d4ed8, #000c66);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(29, 78, 216, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(29, 78, 216, 0.32);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      padding: 14px 28px;
+      background-color: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    @media (max-width: 540px) {
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .login-card {
+        padding: 28px 20px;
+        border-radius: 14px;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-header">
+      <img
+        src="logo.png"
+        alt="Logo Si Perbaiki"
+        class="navbar-logo"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+      >
+      <i class="fa-solid fa-screwdriver-wrench fallback-icon" style="display: none;"></i>
+      <span>Si Perbaiki</span>
+    </div>
+  </header>
+
+  <main class="login-main">
+    <section class="login-card">
+      <div class="card-top">
+        <div class="logo-circle">
+          <img
+            src="logo.png"
+            alt="Logo Si Perbaiki"
+            class="card-logo"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+          >
+          <i class="fa-solid fa-screwdriver-wrench fallback-icon" style="display: none;"></i>
+        </div>
+        <h1>Si Perbaiki</h1>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              placeholder="Masukkan Username"
+              autocomplete="username"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="Masukkan Password"
+              autocomplete="current-password"
+            >
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Tampilkan atau sembunyikan password">
+              <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <button type="submit" class="btn-login">Masuk</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>&copy;Si Perbaiki. All Rights Reserved.</span>
+    <span>Admin Dashboard v1.0</span>
+  </footer>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const togglePasswordBtn = document.getElementById("togglePassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+    const errorMsg = document.getElementById("errorMsg");
+
+    togglePasswordBtn.addEventListener("click", function () {
+      const isPassword = passwordInput.type === "password";
+      passwordInput.type = isPassword ? "text" : "password";
+      eyeIcon.classList.toggle("fa-eye-slash", !isPassword);
+      eyeIcon.classList.toggle("fa-eye", isPassword);
+    });
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const userVal = usernameInput.value.trim();
+      const passVal = passwordInput.value.trim();
+
+      if (userVal === "" || passVal === "") {
+        errorMsg.textContent = "Username dan password wajib diisi terlebih dahulu.";
+        errorMsg.classList.add("show");
+        return;
+      }
+
+      errorMsg.classList.remove("show");
+
+      // Ditaruh di sini (setelah validasi lolos)
+      localStorage.setItem("siPerbaikiAdmin", userVal);
+      window.location.href = "menu utama.html"; // ganti ke "menu-utama.html" jika nama file-nya itu
+    });
+  </script>
+</body>
+</html>

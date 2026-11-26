@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Perbaiki - Laporan Kinerja</title>
+    <link rel="stylesheet" href="laporan-kinerja.css">
+    <script src="../tema.js"></script>
+    <!-- Iconify Script untuk merender ikon di browser -->
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</head>
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <a href="laporan-kinerja.html" class="navbar-brand">
+            <span class="iconify" data-icon="lucide:wrench" data-width="20" data-height="20"></span>
+            <span>Si Perbaiki</span>
+        </a>
+
+        <div class="navbar-search">
+            <span class="iconify" data-icon="lucide:search" data-width="14" data-height="14"></span>
+            <input type="text" placeholder="Cari sesuatu...">
+        </div>
+
+        <div class="navbar-right">
+            <div class="navbar-icons">
+                <span class="iconify" data-icon="lucide:bell" data-width="17" data-height="17"></span>
+                <span class="iconify" data-icon="lucide:user-circle" data-width="18" data-height="18"></span>
+            </div>
+            <span class="navbar-role">Admin</span>
+        </div>
+    </header>
+
+    <!-- LAYOUT WRAPPER -->
+    <div class="layout-wrapper">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="laporan-kinerja.html" class="nav-link">Menu Utama</a>
+                <a href="kasir.html" class="nav-link">Cetak Nota Terima</a>
+                <a href="laporan-kinerja.html" class="nav-link">Laporan Keuangan</a>
+                <a href="../laporan-kinerja/laporan-kinerja.html" class="nav-link active">Laporan Kinerja</a>
+                <a href="../kasir/kasir.html" class="nav-link">Kasir</a>
+                <a href="../pengaturan/pengaturan.html" class="nav-link">Pengaturan</a>
+                <a href="../profil-admin/profil-admin.html" class="nav-link">Profil Admin</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Laporan Kinerja</h1>
+                <p>Pantau pekerjaan teknisi &nbsp;dan kualitas layanan secara real time</p>
+            </div>
+
+            <!-- 4 KPI CARDS -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <span class="iconify" data-icon="lucide:user-cog" data-width="16" data-height="16"></span>
+                    </div>
+                    <div class="kpi-text">
+                        <span class="kpi-label">Total Teknisi</span>
+                        <span class="kpi-value">10</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <span class="iconify" data-icon="lucide:check-circle-2" data-width="16" data-height="16"></span>
+                    </div>
+                    <div class="kpi-text">
+                        <span class="kpi-label">Servis Selesai</span>
+                        <span class="kpi-value">96</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <span class="iconify" data-icon="lucide:file-bar-chart" data-width="16" data-height="16"></span>
+                    </div>
+                    <div class="kpi-text">
+                        <span class="kpi-label">Rata - Rata</span>
+                        <span class="kpi-value">1,8 hari</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-icon">
+                        <span class="iconify" data-icon="lucide:star" data-width="16" data-height="16"></span>
+                    </div>
+                    <div class="kpi-text">
+                        <span class="kpi-label">Tingkat Kepuasan</span>
+                        <span class="kpi-value">4,8/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT GRID -->
+            <div class="content-grid">
+                <div class="card">
+                    <h2 class="card-title">Detail Kinerja Teknisi</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Teknisi</th>
+                                <th>Total</th>
+                                <th>Selesai</th>
+                                <th>Proses</th>
+                                <th>Tertunda</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="tech-info"><span class="avatar av-1">LA</span> Leslie Alexander</td>
+                                <td>42</td><td>36</td><td>6</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="tech-info"><span class="avatar av-2">AB</span> Annette Black</td>
+                                <td>38</td><td>32</td><td>6</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="tech-info"><span class="avatar av-3">AF</span> Albert Flores</td>
+                                <td>28</td><td>24</td><td>4</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="tech-info"><span class="avatar av-4">RF</span> Robert Fox</td>
+                                <td>25</td><td>20</td><td>5</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td class="tech-info"><span class="avatar av-5">WW</span> Wade Warren</td>
+                                <td>30</td><td>15</td><td>5</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td class="tech-info"><span class="avatar av-6">DL</span> Devon Lane</td>
+                                <td>30</td><td>15</td><td>5</td><td></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td class="tech-info"><span class="avatar av-7">EH</span> Esther Howard</td>
+                                <td>30</td><td>15</td><td>5</td><td></td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td class="tech-info"><span class="avatar av-8">GH</span> Guy Hawkins</td>
+                                <td>30</td><td>15</td><td>5</td><td></td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td class="tech-info"><span class="avatar av-9">DA</span> Darlene</td>
+                                <td>30</td><td>15</td><td>5</td><td></td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td class="tech-info"><span class="avatar av-10">FM</span> Floyd Miles</td>
+                                <td>30</td><td>15</td><td>5</td><td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <button class="page-btn">&lt;</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">&gt;</button>
+                    </div>
+                </div>
+
+                <div class="right-stack">
+                    <div class="card">
+                        <h2 class="card-title">Performa Kategori Servis</h2>
+                        <p class="card-subtitle">Jenis servis yanng ditangani oleh teknisi.</p>
+                        
+                        <div class="chart-container">
+                            <div class="y-axis">
+                                <span>40</span>
+                                <span>32</span>
+                                <span>24</span>
+                                <span>16</span>
+                                <span>8</span>
+                                <span>0</span>
+                            </div>
+                            <div class="plot-wrapper">
+                                <div class="plot-area">
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="bars-row">
+                                        <div class="bar-col"><div class="bar" style="height: 95%;"></div></div>
+                                        <div class="bar-col"><div class="bar" style="height: 70%;"></div></div>
+                                        <div class="bar-col"><div class="bar" style="height: 38%;"></div></div>
+                                        <div class="bar-col"><div class="bar" style="height: 33%;"></div></div>
+                                    </div>
+                                </div>
+                                <div class="x-axis">
+                                    <span>Ganti SparePart</span>
+                                    <span>Perbaikan<br>Software</span>
+                                    <span>Pembersihan /<br>Maintenance</span>
+                                    <span>Pengecekan</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 class="card-title">Catatan</h2>
+                        <ul class="notes-list">
+                            <li>Kinerja teknisi dinilai berdasarkan jumlah seervis yang &nbsp;diselesaikan, waktu penyelesaian, dan tingkat kepuasan pelanggan.</li>
+                            <li>Data diperbarui secara &nbsp;<em>real-time</em>.</li>
+                            <li>Gunakan filter tanggal untuk melihat pada laporan pada periode teertentu.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <span>©Si Perbaiki. All Rights Reserved.</span>
+        <span>Admin &nbsp;Dashboard v1.0</span>
+    </footer>
+    <script src="laporan-kinerja.js"></script>
+</body>
+</html>
