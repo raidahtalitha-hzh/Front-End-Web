@@ -729,15 +729,49 @@
       }
     });
 
-    const daftarPesanan = [
-      { no: 1, resi: "SRV-849201", nama: "Theresa Webb", tanggal: "27/7/26", status: "Proses", barang: "Laptop" },
-      { no: 2, resi: "SRV-973480", nama: "Jerome Bell", tanggal: "10/6/26", status: "Menunggu", barang: "Smartphone" },
-      { no: 3, resi: "SRV-536682", nama: "Cody Fisher", tanggal: "8/2/26", status: "Selesai", barang: "Printer" },
-      { no: 4, resi: "SRV-126789", nama: "Courtney Henry", tanggal: "18/9/26", status: "Proses", barang: "Monitor" },
-      { no: 5, resi: "SRV-362817", nama: "Dianne Russell", tanggal: "27/5/26", status: "Selesai", barang: "Tablet" },
-      { no: 6, resi: "SRV-871730", nama: "Kristin Watson", tanggal: "11/7/26", status: "Menunggu", barang: "Kamera" },
-      { no: 7, resi: "SRV-873670", nama: "Floyd Miles", tanggal: "9/4/26", status: "Proses", barang: "PC Desktop" }
-    ];
+   const dataNota = [
+    // Halaman 1
+    { kode: "SRV-536682", nama: "Cody Fisher", tanggal: "8/2/26", status: "Selesai" },
+    { kode: "SRV-126789", nama: "Courtney Henry", tanggal: "18/9/26", status: "Proses" },
+    { kode: "SRV-362817", nama: "Dianne Russell", tanggal: "27/5/26", status: "Selesai" },
+    { kode: "SRV-871730", nama: "Kristin Watson", tanggal: "11/7/26", status: "Menunggu" },
+    { kode: "SRV-873670", nama: "Floyd Miles", tanggal: "9/4/26", status: "Proses" },
+
+    // Halaman 2
+    { kode: "SRV-204119", nama: "Jacob Jones", tanggal: "10/4/26", status: "Selesai" },
+    { kode: "SRV-498231", nama: "Kathryn Murphy", tanggal: "12/4/26", status: "Proses" },
+    { kode: "SRV-612045", nama: "Marvin McKinney", tanggal: "15/4/26", status: "Selesai" },
+    { kode: "SRV-739182", nama: "Ronald Richards", tanggal: "19/4/26", status: "Menunggu" },
+    { kode: "SRV-854920", nama: "Arlene McCoy", tanggal: "22/4/26", status: "Selesai" },
+
+    // Halaman 3
+    { kode: "SRV-910234", nama: "Savannah Nguyen", tanggal: "2/5/26", status: "Proses" },
+    { kode: "SRV-945112", nama: "Theresa Webb", tanggal: "5/5/26", status: "Selesai" },
+    { kode: "SRV-978341", nama: "Ralph Edwards", tanggal: "8/5/26", status: "Menunggu" },
+    { kode: "SRV-102948", nama: "Courtney Williamson", tanggal: "11/5/26", status: "Selesai" },
+    { kode: "SRV-115829", nama: "Bessie Cooper", tanggal: "14/5/26", status: "Proses" },
+
+    // Halaman 4
+    { kode: "SRV-129401", nama: "Cameron Williamson", tanggal: "17/5/26", status: "Selesai" },
+    { kode: "SRV-140293", nama: "Brooklyn Simmons", tanggal: "20/5/26", status: "Proses" },
+    { kode: "SRV-158374", nama: "Jane Cooper", tanggal: "23/5/26", status: "Menunggu" },
+    { kode: "SRV-167492", nama: "Jerome Bell", tanggal: "26/5/26", status: "Selesai" },
+    { kode: "SRV-179204", nama: "Darlene Robertson", tanggal: "29/5/26", status: "Proses" },
+
+    // Halaman 5
+    { kode: "SRV-184520", nama: "Eleanor Pena", tanggal: "2/6/26", status: "Selesai" },
+    { kode: "SRV-195831", nama: "Guy Morales", tanggal: "5/6/26", status: "Menunggu" },
+    { kode: "SRV-208412", nama: "Hannah Abbott", tanggal: "9/6/26", status: "Selesai" },
+    { kode: "SRV-219743", nama: "Liam Bennett", tanggal: "13/6/26", status: "Proses" },
+    { kode: "SRV-231094", nama: "Chloe Mitchell", tanggal: "17/6/26", status: "Selesai" },
+
+    // Halaman 6
+    { kode: "SRV-245118", nama: "Noah Turner", tanggal: "20/6/26", status: "Proses" },
+    { kode: "SRV-258932", nama: "Olivia Carter", tanggal: "23/6/26", status: "Selesai" },
+    { kode: "SRV-269405", nama: "Ethan Brooks", tanggal: "25/6/26", status: "Menunggu" },
+    { kode: "SRV-281760", nama: "Sophia Reed", tanggal: "28/6/26", status: "Selesai" },
+    { kode: "SRV-294811", nama: "Mason Hayes", tanggal: "30/6/26", status: "Proses" }
+  ];
 
     const tbodyPesanan = document.getElementById("tbodyPesanan");
     const previewResi = document.getElementById("previewResi");
@@ -757,7 +791,6 @@
     const btnCari = document.getElementById("btnCari");
 
     let salinan = 1;
-
     function renderPesanan(listData) {
       tbodyPesanan.innerHTML = "";
 
@@ -790,8 +823,6 @@
           "</tr>";
       });
     }
-
-    renderPesanan(daftarPesanan);
 
     function pilihNota(idx) {
       const data = daftarPesanan[idx];
@@ -847,6 +878,98 @@
       infoCetak.textContent =
         "Nota " + previewResi.textContent + " (" + salinan + " salinan, " + ukuranKertas.value + " - " + jenisPrinter.value + ") siap dicetak.";
     });
+
+    (function () {
+  const paginationEl = document.querySelector(".pagination");
+  const tbodyEl = document.querySelector("table tbody");
+  if (!paginationEl || !tbodyEl) return;
+
+  const perHalaman = 5;
+  const totalHalaman = 6;
+
+  const contohBtn = paginationEl.querySelector("button, a");
+  const btnClass = contohBtn ? contohBtn.className : "page-btn";
+  let halamanAktif = 1;
+
+  function badgeStatus(status) {
+    const s = String(status).toLowerCase();
+    if (s.includes("selesai")) {
+      return '<span style="background:#dcfce7;color:#15803d;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;display:inline-block;">Selesai</span>';
+    }
+    if (s.includes("proses")) {
+      return '<span style="background:#fef3c7;color:#b45309;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;display:inline-block;">Proses</span>';
+    }
+    return '<span style="background:#fee2e2;color:#b91c1c;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600;display:inline-block;">Menunggu</span>';
+  }
+
+  function renderTabel(hal) {
+    const mulai = (hal - 1) * perHalaman;
+    const potongan = dataNota.slice(mulai, mulai + perHalaman);
+
+    tbodyEl.innerHTML = potongan
+      .map(function (row, idx) {
+        const nomorUrut = mulai + idx + 1;
+        return (
+          "<tr>" +
+            "<td>" + nomorUrut + "</td>" +
+            "<td>" + row.kode + "</td>" +
+            "<td>" + row.nama + "</td>" +
+            "<td>" + row.tanggal + "</td>" +
+            "<td>" + badgeStatus(row.status) + "</td>" +
+            '<td><i class="fa-solid fa-print" style="cursor:pointer;"></i></td>' +
+          "</tr>"
+        );
+      })
+      .join("");
+  }
+
+  function renderTombolPagination() {
+    let html = "";
+    html += '<button type="button" class="' + btnClass + '" data-nav="prev" ' + (halamanAktif === 1 ? "disabled" : "") + '>&lt;</button>';
+
+    const angkaDitampilkan = new Set([1, 2, totalHalaman]);
+    if (halamanAktif >= 2 && halamanAktif <= totalHalaman - 1) {
+      angkaDitampilkan.add(halamanAktif);
+    }
+
+    const sorted = Array.from(angkaDitampilkan).sort(function (a, b) {
+      return a - b;
+    });
+
+    for (let i = 0; i < sorted.length; i++) {
+      const p = sorted[i];
+      if (i > 0 && p - sorted[i - 1] > 1) {
+        html += '<span style="padding:0 4px;color:#64748b;">...</span>';
+      }
+      const aktifClass = p === halamanAktif ? " active" : "";
+      html += '<button type="button" class="' + btnClass + aktifClass + '" data-page="' + p + '">' + p + "</button>";
+    }
+
+    html += '<button type="button" class="' + btnClass + '" data-nav="next" ' + (halamanAktif === totalHalaman ? "disabled" : "") + '>&gt;</button>';
+    paginationEl.innerHTML = html;
+  }
+
+  paginationEl.addEventListener("click", function (e) {
+    const target = e.target.closest("button");
+    if (!target) return;
+
+    if (target.dataset.nav === "prev" && halamanAktif > 1) {
+      halamanAktif--;
+    } else if (target.dataset.nav === "next" && halamanAktif < totalHalaman) {
+      halamanAktif++;
+    } else if (target.dataset.page) {
+      halamanAktif = Number(target.dataset.page);
+    } else {
+      return;
+    }
+
+    renderTabel(halamanAktif);
+    renderTombolPagination();
+  });
+
+  renderTabel(1);
+  renderTombolPagination();
+})();
   </script>
 </body>
 </html>

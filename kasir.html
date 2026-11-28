@@ -359,9 +359,10 @@
 
     .sparepart-img-box {
       width: 100%;
-      height: 58px;
-      border-radius: 5px;
-      background-color: #f1f5f9;
+      height: 75px;
+      border-radius: 6px;
+      background-color: #ffffff;
+      padding: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -371,7 +372,7 @@
     .sparepart-img-box img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; 
     }
 
     /* Keranjang Transaksi */
@@ -836,14 +837,14 @@
 
     // Data Sparepart Populer (ganti src gambar sesuai file lokal milikmu)
     const sparepartPopuler = [
-      { id: "spr-1", nama: "Baterai Laptop", harga: 250000, foto: "baterai-laptop.jpg", ikon: "fa-car-battery" },
-      { id: "spr-2", nama: "LCD Laptop", harga: 650000, foto: "lcd-laptop.jpg", ikon: "fa-display" },
-      { id: "spr-3", nama: "Charger Laptop", harga: 200000, foto: "charger-laptop.jpg", ikon: "fa-plug" },
-      { id: "spr-4", nama: "Baterai HP", harga: 180000, foto: "baterai-hp.jpg", ikon: "fa-battery-full" },
-      { id: "spr-5", nama: "LCD HP", harga: 350000, foto: "lcd-hp.jpg", ikon: "fa-mobile" },
-      { id: "spr-6", nama: "Keyboard Laptop", harga: 150000, foto: "keyboard-laptop.jpg", ikon: "fa-keyboard" },
-      { id: "spr-7", nama: "Kipas Laptop", harga: 120000, foto: "kipas-laptop.jpg", ikon: "fa-fan" },
-      { id: "spr-8", nama: "Kabel Fleksibel", harga: 85000, foto: "kabel-fleksibel.jpg", ikon: "fa-microchip" }
+      { id: "spr-1", nama: "Baterai Laptop", harga: 250000, foto: "Image/img/baterai.png", ikon: "fa-car-battery" },
+      { id: "spr-2", nama: "LCD Laptop", harga: 650000, foto: "Image/img/lcd.png", ikon: "fa-display" },
+      { id: "spr-3", nama: "Charger Laptop", harga: 200000, foto: "Image/img/charger.png", ikon: "fa-plug" },
+      { id: "spr-4", nama: "Baterai HP", harga: 180000, foto: "Image/img/baterai hp.png", ikon: "fa-battery-full" },
+      { id: "spr-5", nama: "LCD HP", harga: 350000, foto: "Image/img/lcd hp.jpeg", ikon: "fa-mobile" },
+      { id: "spr-6", nama: "Keyboard Laptop", harga: 150000, foto: "Image/img/keyboard.jpeg", ikon: "fa-keyboard" },
+      { id: "spr-7", nama: "Kipas Laptop", harga: 120000, foto: "Image/img/kipas.jpeg", ikon: "fa-fan" },
+      { id: "spr-8", nama: "Kabel Fleksibel", harga: 85000, foto: "Image/img/kabel flex.jpeg", ikon: "fa-microchip" }
     ];
 
     // Isi awal Keranjang Transaksi
